@@ -1,0 +1,133 @@
+Project 2: The Final Frontier (dun dun dun)
+
+Members: Brian Leung, Kristin Lin, Sabrina Wen
+
+Description:
+  For our project, we will be making Monopoly.
+
+  The object of the MONOPOLY game is to become the wealthiest player through buying, renting and selling property. The player who remains in the game the longest is the winner.
+
+  Dice and Cards:
+    To play, move the tokens around the board according to each throw of the dice.
+    Players must always obey the instructions given on Chance and Community Chest cards.
+    Players sometimes go to Jail.
+
+  Property and Rent:
+    When your token lands on a space that is not already owned by another player, you may buy it from the Bank. If you do not want to buy it, it is auctioned off to the highest bidder.
+    Players who own properties collect rents from opponents who stop there. The building of houses and hotels greatly increases the rents paid on properties, so it is wise to build on as many properties as possible.
+    To raise more money, the Bank can mortgage properties.
+
+User interface:
+  We will use the SDL library to display the game. There will be a square board where players can view how much money they have, where each person is located, what each space represents, and if/where each person owns property. There will also be a button for players to “roll the dice” (aka generate a random number of spaces to move) when it is their turn.
+
+
+
+Technical design:
+  NOTE: For mvp, there will be a restricted number of players as 4 and no community chest cards.
+
+  F I L E S
+
+    server.c
+    client.c
+    pipe_networking.h
+    pipe_handshakes.c
+    client_turn.c
+
+  S E T  U P
+
+  Server:
+    There will be an open server on a network that accepts clients (players).
+
+    1. (Kristin) Server will create shared memory:
+      a. struct space board [40] (an array of structs representing spaces on the board- zero being GO and 39 being the space before GO)
+      Struct space will have attributes:
+        i. char * name
+        ii. int chance (0 - don’t draw or 1 - draw)
+        iii. Int properties [4] (each slot holding rent of num player’s property)
+      b. struct chance deck [16]
+      Struct chance will have attributes:
+        i. char * text (text of card)
+        ii. int money (< 0 meaning you owe, > 0 meaning you gain)
+        iii. int space (0 meaning GO, 16 meaning jail, etc.)
+    2. (Brian) Server will create a semaphore, so only 1 person can access each shm.
+    3. (Sabrina) Server will have:
+      a. int to_subservers [4] (holding file descriptors)
+      b. int from_clients [4] (holding file descriptors)
+      c. int player_indices [4] (holding the index of the space of the board players are occupying in relation to shm’s board)
+      d. int curr_turn (index of player_indices--basically whose turn?)
+      e. int player_gains [4] (holding money each player earned--someone paid rent)
+      f. A struct named start with attributes for receiving from client::
+        i. int index
+        ii. int gains
+    g. struct turn with attributes for sending to subserver:
+      i. int dead (0 for bankrupt, 1 for still alive)
+      ii. int curr_index
+      iii. int dues [5] (owing money to player 0, player 1…, player 3, and BANK)
+
+  Client (Brian)
+
+    Client has:
+
+    1. int money
+    2. Struct space will have attributes for receiving from shm:
+      a. char * name
+      b. int chance (0 - don’t draw or 1 - draw)
+      c. int properties [4] (each slot holding rent of num player’s property)
+    3. Struct chance will have attributes for receiving from shm:
+      a. char * text (text of card)
+      b. int money (< 0 meaning you owe, > 0 meaning you gain)
+      c. int space (0 meaning GO, 16 meaning jail, etc.)
+    4. struct start with attributes for receiving from server:
+      a. int index
+      b. int gains
+    5. struct turn with attributes for sending to server:
+      a. int dead (0 for bankrupt, 1 for still alive)
+      b. int curr_index
+      c. int dues [4] (owing money to player 0, player 1…, player 3)
+
+    (Sabrina) Only after four people connect (for MVP) and complete handshake (for a client to client communication and server model), server will begin game by forking off.
+
+    New main subserver will set server’s curr_turn to random number between 0 and 3 to figure out starting player.
+    Server will loop through 0 - 3 (indices of the to_subservers array) using server’s curr_turn representing each player’s turn.
+
+  T U R N S
+
+  On each turn,
+    1. Server sends player struct start with index and money gained using server’s player_gains and player_indices that they are on.
+    2. (Brian) Player receives server’s info and stores in struct start.
+    3. Player updates client’s money appropriately using start’s gains.
+    4. Player generates random number between 1 and 12 (“rolling dice”), sets turn’s curr_index as sum of start’s index and randnum.
+    5. Player downs semaphore and retrieves struct space in the index curr_index of shm’s board and ups semaphore again.
+    6. (Kristin) Player checks chance index.
+      a. If chance index is 1:
+      Down semaphore, retrieve next chance card. Up semaphore.
+        i. Add or subtract from client’s money appropriately.
+        ii. Update turn’s array dues appropriately.
+        iii. Change turn’s curr_index appropriately.
+        iv. Write to server struct turn.
+        v. END OF TURN.
+      b. Otherwise, check array if any property is existent.
+        i. Subtract from client’s money appropriately
+        ii. Update turn’s dues appropriately
+      c. Then, ask user (read from stdin file) if they have a desire to update or buy property.
+        i. Change shm’s board’s struct space properties appropriately.
+        ii. Change client’s money appropriately.
+      d. Change turn’s dead appropriately according to client’s money.
+      e. Write turn back to server.
+  7. (Sabrina) Server receives turn, stores in turn.
+    a. Server checks turn’s dead to see if player is out of game or not.
+      i. If so, set appropriate player’s properties, gains, indices, etc, as 0 and skip turn.
+    b. Else, server changes server’s player_gains appropriately using turn’s dues
+    c. Server changes server’s player_indices appropriately using turn’s curr_index.
+    d. END OF TURN.
+
+
+Timeline:
+
+START - 01/08 | Client setup
+START - 01/09 | Server setup
+01/08 - 01/16 | Client functions during turn
+01/09 - 01/16 | Server functions during turn
+01/16 - 01/19 | Debugging
+
+Mac tutorial for SDL: https://medium.com/@edkins.sarah/set-up-sdl2-on-your-mac-without-xcode-6b0c33b723f7
