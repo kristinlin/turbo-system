@@ -99,6 +99,7 @@ void game_quit(void) {
 
 
 //==========================MAIN====================================
+/*
 int main(int argc, char* argv[]) {
 
   Game.init();
@@ -118,7 +119,7 @@ int main(int argc, char* argv[]) {
 	Game.running = SDL_FALSE;
       } break;
 
-	/*you can add stuff like clicking, keyboard events, etc*/
+	//you can add stuff like clicking, keyboard events, etc
       }
     }
 
@@ -135,3 +136,4 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
+*/

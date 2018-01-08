@@ -1,7 +1,13 @@
-all: main.c
-	gcc -I/usr/include/SDL/ main.c -o monopoly -L/usr/lib -lSDL2
-run: all
-	./monopoly
+all: server client
+	gcc -c pipe_networking.c
+server: server.c
+	gcc -o server server.c
+client: client.c
+	gcc -o client client.c
+sdl: main.c
+	gcc -I/usr/include/SDL/ main.c -o sdltest -L/usr/lib -lSDL2
+runsdl: sdl
+	./sdltest
 clean:
-	rm *~
+	rm *~; rm *#; rm monopoly; rm *.o;
 
