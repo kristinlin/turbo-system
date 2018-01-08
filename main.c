@@ -77,7 +77,7 @@ void game_init(void) {
   //game is now running
   Game.running = SDL_TRUE;
   //load image
-  Game.screen.loaded_surface = SDL_LoadBMP("board.bmp");
+  Game.screen.loaded_surface = SDL_LoadBMP("images/board.bmp");
 }
 
 //------------------------------------------------------
