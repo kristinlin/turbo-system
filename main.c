@@ -99,7 +99,7 @@ void game_quit(void) {
 
 
 //==========================MAIN====================================
-/*
+
 int main(int argc, char* argv[]) {
 
   Game.init();
@@ -136,4 +136,4 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-*/
+
