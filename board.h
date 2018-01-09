@@ -15,9 +15,8 @@ struct Chance { // for chance deck
   int space;
 };
 
-struct Start { // idk
-  int index;
-  int gains;
+struct Update { // idk
+  int position[4] // where everyone is rn
 };
 
 struct Turn {
