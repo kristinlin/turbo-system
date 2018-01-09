@@ -4,10 +4,10 @@
 int main() {
 
   int to_server;
-  int from_server;
+  int from_subserver;
   char buffer[BUFFER_SIZE];
 
-  from_server = client_handshake( &to_server );
+  from_subserver = client_handshake( &to_server );
 
   /*  while (1) {
     printf("enter data: ");

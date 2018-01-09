@@ -22,8 +22,6 @@ Server:
 
 //===================ATTRIBUTES===================
 
-int to_subservers [4];
-int from_subservers[4];
 
 /*
   a. int to_subservers [4] (holding file descriptors)
@@ -43,8 +41,8 @@ int from_subservers[4];
 //===================METHODS===================
 
 static void sighandler(int);
-void subserver_player(int);
-void newgame();
+void subserver_player(int, int, int);
+void newgame(int [4], int [4]);
 
 static void sighandler(int signo) {
   if (signo == SIGINT) {
@@ -53,59 +51,93 @@ static void sighandler(int signo) {
   }
 }
 
-void subserver_player(int player) {
-  printf("%d\n", player);
+void subserver_player(int player, int from_server, int to_client) {
+  printf("[subserver %d] reporting.\n", player);
   while(1) {
     //don't move
   }
 }
 
-void newgame() {
-  printf("okay.");
+void newgame(int from_clients[4], int to_subservers[4]) {
+  printf("[mainserver] okay.\n");
   while (1) {
     //don't move
   }
 }
 
-//===================MAIN===================
+//=======================MAIN=======================
+
+/*
+  main server: from_client & to_subserver
+  subserver: from_server & to_client
+  client: from_subserver & to_server
+
+ */
 
 int main() {
+
+  int to_subservers [4];
+  int from_clients[4];
+  int connect_players;
+  int f;
 
   //when server is terminated with ctrl+c
   signal(SIGINT, sighandler);
 
   while(1) {
-
-    int connect_players;
-    int f;
     
     //set up WKP to wait and connect 4 players
     for (connect_players = 0; connect_players < 4; connect_players++) {
 
-      from_subservers[connect_players] = server_setup();
+      //server from_client
+      from_clients[connect_players] = server_setup();
 
+      //server to_subserver
+      int subserver_pipe [2];
+      pipe( subserver_pipe );
+      
       //subserver for each player
       f = fork();
       if (!f) {
-	remove( PIPE_NAME );
-	subserver_player(connect_players);
+
+	//from_server = subserver_pipe[READ]
+	close(subserver_pipe[WRITE]);
+	
+	//perform handshake for to_client
+	int to_client = server_connect(from_clients[connect_players]);
+
+	//subservers don't need from_clients
+	int close_client;
+	for (close_client = 0; close_client < 4; close_client++) {
+	  close(from_clients[close_client]);
+	  from_clients[close_client] = -1;
+	}
+
+	//subservers need to_clients and from_server
+	subserver_player(connect_players, subserver_pipe[READ], to_client);
       }
-      printf("ok, player [%d]\n", connect_players);
+
+      //server needs to_subserver
+      to_subservers[connect_players] = subserver_pipe[WRITE];
+      
+      printf("ok, player [%d]?\n", connect_players);
     }
 
-    remove( PIPE_NAME );
     f = fork();
 
     //if parent process (main server); close connections
     if (f) {
       for (connect_players = 0; connect_players < 4; connect_players++) {
-	close(from_subservers[connect_players]);
+	close(from_clients[connect_players]);
+	close(to_subservers[connect_players]);
+	from_clients[connect_players] = -1;
+	to_subservers[connect_players] = -1;
       }
     }
 
     //children or subserver; new game; keep connection
     else {
-      newgame();
+      newgame( from_clients, to_subservers );
     }
   }
 }

@@ -24,7 +24,7 @@ int server_setup() {
   from_client = open( PIPE_NAME, O_RDONLY, 0);
 
   //remove WKP
-  //  remove(PIPE_NAME);
+  remove(PIPE_NAME);
 
   return from_client;
 }
@@ -119,7 +119,6 @@ int client_handshake(int *to_server) {
     exit(1);
 
   //make private pipe
-  /*
   sprintf(buffer, "%d", getpid() );
   mkfifo(buffer, 0600);
 
@@ -128,7 +127,6 @@ int client_handshake(int *to_server) {
   //open and wait for connection
   from_server = open(buffer, O_RDONLY, 0);
   read(from_server, buffer, sizeof(buffer));
-  validate buffer code goes here
   printf("[client] handshake: received [%s]\n", buffer);
 
   //remove pp
@@ -138,8 +136,6 @@ int client_handshake(int *to_server) {
   //send ACK to server
   write(*to_server, ACK, sizeof(buffer));
 
-  return from_server; */
-
-  return 0;
+  return from_server; 
     
 }
