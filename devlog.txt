@@ -1,3 +1,6 @@
 linK -- 2018-01-07 22:23:44
 Implemented basic SDL
 
+wenS -- 2018-01-09 00:12:27
+added structs for client and server
+
