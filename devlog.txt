@@ -4,3 +4,6 @@ Implemented basic SDL
 wenS -- 2018-01-09 00:12:27
 added structs for client and server
 
+linK -- 2018-01-09 09:25:20
+Finished working on server, client, subserver setup
+
