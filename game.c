@@ -1,4 +1,4 @@
-
+#include "board.h"
 /*
 Server:
     There will be an open server on a network that accepts clients (players).
