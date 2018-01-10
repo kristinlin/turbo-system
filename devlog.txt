@@ -7,3 +7,6 @@ added structs for client and server
 linK -- 2018-01-09 09:25:20
 Finished working on server, client, subserver setup
 
+linK -- 2018-01-09 22:13:10
+Completed full circle handshake to ensure that client, server, and subserver are connected
+

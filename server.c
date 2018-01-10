@@ -52,15 +52,33 @@ static void sighandler(int signo) {
 }
 
 void subserver_player(int player, int from_server, int to_client) {
+
   printf("[subserver %d] reporting.\n", player);
+
+  //all around handshake: client->server->subserver->REPEAT
+  int buff;
+  read(from_server, &buff, sizeof(buff));
+  printf("[subserver %d] received: %d\n", player, buff);
+  write(to_client, &buff, sizeof(buff));
+
   while(1) {
     //don't move
   }
 }
 
 void newgame(int from_clients[4], int to_subservers[4]) {
+
   printf("[mainserver] okay.\n");
-  while (1) {
+
+  //all around handshake: client->server->subserver->REPEAT
+  int buff;
+  for (int x = 0; x < 4; x++) {
+    read(from_clients[x], &buff, sizeof(buff));
+    printf("[mainserver] received: %d\n", buff);
+    write(to_subservers[x], &buff, sizeof(buff));
+  }
+
+  while(1) {
     //don't move
   }
 }
@@ -71,7 +89,6 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   main server: from_client & to_subserver
   subserver: from_server & to_client
   client: from_subserver & to_server
-
  */
 
 int main() {
@@ -118,6 +135,7 @@ int main() {
       }
 
       //server needs to_subserver
+      close(subserver_pipe[READ]);
       to_subservers[connect_players] = subserver_pipe[WRITE];
       
       printf("ok, player [%d]?\n", connect_players);

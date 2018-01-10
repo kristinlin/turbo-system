@@ -2,24 +2,24 @@
 #include "pipe_networking.c"
 
 int money;
-typedef struct space{
+struct space{
   char * name;
   int chance;
   int properties[4];  
 };
 
-typedef struct chance{
+struct chance{
   char * text;
   int money;
   int space;
 };
 
-typedef struct start{
+struct start{
   int index;
   int gains;
 };
 
-typedef struct turn{
+struct turn{
   int dead;
   int curr_index;
   int dues [4];
@@ -32,16 +32,21 @@ int main() {
   char buffer[BUFFER_SIZE];
   struct chance Space;
 
-  //from_subserver = client_handshake( &to_server );
+  from_subserver = client_handshake( &to_server );
 
-  /*  while (1) {
-    printf("enter data: ");
-    fgets(buffer, sizeof(buffer), stdin);
-    *strchr(buffer, '\n') = 0;
-    write(to_server, buffer, sizeof(buffer));
-    read(from_server, buffer, sizeof(buffer));
-    printf("received: [%s]\n", buffer);
+  //full circle handshake. client->server->subserver->REPEAT
+  int buff = getpid();
+  int buff_rec; 
+  printf("Waiting for more players");
+  printf("[player] writing: %d\n", buff);
+  write(to_server, &buff, sizeof(buff));
+  read(from_subserver, &buff_rec, sizeof(buff_rec));
+  printf("[player] received: %d\n", buff_rec);
+
+  if (buff !== buff_rec) {
+    printf("Error. Not connected.\n");
   }
-  */
-  printf("%d bytes large\n",sizeof() );
+
+  
+  //printf("%d bytes large\n",sizeof() );
 }

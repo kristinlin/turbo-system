@@ -11,4 +11,4 @@ runsdl: sdl
 board: board.h
 	gcc -o board board.h
 clean:
-	rm *~; rm *#; rm monopoly; rm *.o;
+	rm *~; rm *#; rm monopoly; rm client; rm server; rm board; rm *.o;
