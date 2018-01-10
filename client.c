@@ -27,10 +27,10 @@ struct turn{
 
 int main() {
 
-  int to_server;
-  int from_subserver;
-  char buffer[BUFFER_SIZE];
-  struct chance Space;
+  /* int to_server; */
+  /* int from_subserver; */
+  /* char buffer[BUFFER_SIZE]; */
+  /* struct chance Space; */
 
   from_subserver = client_handshake( &to_server );
 
