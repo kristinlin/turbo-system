@@ -26,7 +26,7 @@ void subserver_player(int player, int from_server, int to_client) {
   printf("[subserver %d] received: %d\n", player, buff);
   write(to_client, &buff, sizeof(buff));
 
-  struct update 
+  struct update updateInfo;
   
   while(1) {
     //don't move

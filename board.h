@@ -13,9 +13,9 @@ struct chance { // for chance deck
 };
 
 struct update { // idk
-  int curr_player //0 to 3
-  int position[4] // where everyone is rn
-  int gains[4] //how much money each person made
+  int curr_player; //0 to 3
+  int position[4]; // where everyone is rn
+  int gains[4]; //how much money each person made
 };
 
 struct turn {
