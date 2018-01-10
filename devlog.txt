@@ -10,3 +10,6 @@ Finished working on server, client, subserver setup
 linK -- 2018-01-09 22:13:10
 Completed full circle handshake to ensure that client, server, and subserver are connected
 
+leungB -- 2018-01-10 15:36:11
+started work with the semaphores
+
