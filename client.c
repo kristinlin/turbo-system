@@ -43,7 +43,7 @@ int main() {
   read(from_subserver, &buff_rec, sizeof(buff_rec));
   printf("[player] received: %d\n", buff_rec);
 
-  if (buff !== buff_rec) {
+  if (buff != buff_rec) {
     printf("Error. Not connected.\n");
   }
 
