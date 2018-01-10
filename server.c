@@ -1,5 +1,6 @@
 #include "pipe_networking.h"
 #include "pipe_networking.c"
+#include "game.c"
 #include <signal.h>
 
 
@@ -25,8 +26,12 @@ void subserver_player(int player, int from_server, int to_client) {
   printf("[subserver %d] received: %d\n", player, buff);
   write(to_client, &buff, sizeof(buff));
 
+  struct update updateInfo;
+
+  //pass info from server to client
   while(1) {
-    //don't move
+    read(from_server, &updateInfo, sizeof(updateInfo));
+    write(to_server, &updateInfo, sizeof(updateInfo));
   }
 }
 

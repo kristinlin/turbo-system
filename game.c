@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
+#include "board.h"
 /*
 Server:
     There will be an open server on a network that accepts clients (players).
