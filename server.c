@@ -99,10 +99,10 @@ int main() {
     //if parent process (main server); close connections
     if (f) {
       for (connect_players = 0; connect_players < 4; connect_players++) {
-	close(from_clients[connect_players]);
-	close(to_subservers[connect_players]);
-	from_clients[connect_players] = -1;
-	to_subservers[connect_players] = -1;
+        	close(from_clients[connect_players]);
+        	close(to_subservers[connect_players]);
+        	from_clients[connect_players] = -1;
+        	to_subservers[connect_players] = -1;
       }
     }
 

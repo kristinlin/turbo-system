@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 #include "board.h"
 /*
 Server:
@@ -15,6 +19,8 @@ Server:
         ii. int money (< 0 meaning you owe, > 0 meaning you gain)
         iii. int space (0 meaning GO, 16 meaning jail, etc.)
     2. (Brian) Server will create a semaphore, so only 1 person can access each shm.
+      Attach semaphore to struct space board.
+      Attach semaphore to struct chance deck.
 */
 
 //===================ATTRIBUTES===================
@@ -34,6 +40,34 @@ Server:
      ii. int curr_index
      iii. int dues [5] (owing money to player 0, player 1…, player 3, and BANK)
 */
+
+
+union semun 
+{
+   int              val;    /* Value for SETVAL */
+   struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+   unsigned short  *array;  /* Array for GETALL, SETALL */
+   struct seminfo  *__buf;  /* Buffer for IPC_INFO                               (Linux-specific) */
+} data;
+
+
+int semcreate(int val)
+{
+  int semid;
+  semid = semget(KEY, 1, IPC_EXCL | IPC_CREAT | 0600);
+  if (semid==-1)
+  {
+    printf("Oh no this semaphore already exists :(\n");
+    return 0;
+  }
+  else
+  {
+    printf("Status code: %d\n",semctl(semid, 0, SETVAL, val));
+    printf("Tada, you have a semaphore now. It's at %d\n",semid);
+  }
+  return semid;
+}
+
 
 
 void newgame(int from_clients[4], int to_subservers[4]) {
