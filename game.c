@@ -3,6 +3,7 @@
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include "board.h"
+
 /*
 Server:
     There will be an open server on a network that accepts clients (players).
@@ -82,6 +83,15 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     write(to_subservers[x], &buff, sizeof(buff));
   }
 
+  // set up shared mem NOTE: should be size of (struct game)
+  board_id = shmget(getpid(), sizeof(struct space) * 40, IPC_CREAT | IPC_EXCL);
+  // send board_id (game id) to all subservers (players)
+  int i = 0;
+  for (i = 0; i < 4; i++) {
+    write(to_subservers[i], getpid(), sizeof(int));
+  }
+  // fill out board info (names for spaces, etc.)
+  
   while(1) {
     //don't move
   }

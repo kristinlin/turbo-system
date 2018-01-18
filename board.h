@@ -12,6 +12,11 @@ struct chance { // for chance deck
   int space;
 };
 
+struct game {
+  struct space spaces[40];
+  struct chance chance_cards[16];
+}
+
 struct update { // idk
   int curr_player; //0 to 3
   int position[4]; // where everyone is rn
