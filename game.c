@@ -22,6 +22,8 @@ Server:
     2. (Brian) Server will create a semaphore, so only 1 person can access each shm.
       Attach semaphore to struct space board.
       Attach semaphore to struct chance deck.
+
+      NOTE: Will need the client functions to actually access the semaphore
 */
 
 //===================ATTRIBUTES===================

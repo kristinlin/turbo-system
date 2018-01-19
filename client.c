@@ -25,6 +25,24 @@ struct turn{
   int dues [4];
 };
 
+//ignore this, carry on
+int semview()
+{
+  int semval = semget(KEY, 1, 0600);
+  int semcut = semctl(semval, 0, GETVAL);
+  printf("%d\n",semcut);
+  if (semcut<0)
+  {
+    printf("You need to create a semaphore first\n");
+    return 0;
+  }
+  else
+  {
+    printf("The semaphore value is: %d\n",semcut);
+  }
+  return data.val+0;
+}
+
 int main() {
 
   int to_server; 
