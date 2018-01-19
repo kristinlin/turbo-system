@@ -31,7 +31,7 @@ void subserver_player(int player, int from_server, int to_client) {
   //pass info from server to client
   while(1) {
     read(from_server, &updateInfo, sizeof(updateInfo));
-    write(to_server, &updateInfo, sizeof(updateInfo));
+    write(to_client, &updateInfo, sizeof(updateInfo));
   }
 }
 
@@ -55,7 +55,7 @@ int main() {
   signal(SIGINT, sighandler);
 
   while(1) {
-    
+
     //set up WKP to wait and connect 4 players
     for (connect_players = 0; connect_players < 4; connect_players++) {
 
@@ -65,14 +65,14 @@ int main() {
       //server to_subserver
       int subserver_pipe [2];
       pipe( subserver_pipe );
-      
+
       //subserver for each player
       f = fork();
       if (!f) {
 
 	//from_server = subserver_pipe[READ]
 	close(subserver_pipe[WRITE]);
-	
+
 	//perform handshake for to_client
 	int to_client = server_connect(from_clients[connect_players]);
 
@@ -90,7 +90,7 @@ int main() {
       //server needs to_subserver
       close(subserver_pipe[READ]);
       to_subservers[connect_players] = subserver_pipe[WRITE];
-      
+
       printf("ok, player [%d]?\n", connect_players);
     }
 
@@ -112,9 +112,3 @@ int main() {
     }
   }
 }
-
-
-
-
-
-

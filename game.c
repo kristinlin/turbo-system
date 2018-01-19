@@ -2,7 +2,9 @@
 #include <unistd.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
+#include <sys/shm.h>
 #include "board.h"
+#define KEY 1023
 
 /*
 Server:
@@ -43,13 +45,13 @@ Server:
 */
 
 
-union semun 
-{
-   int              val;    /* Value for SETVAL */
-   struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
-   unsigned short  *array;  /* Array for GETALL, SETALL */
-   struct seminfo  *__buf;  /* Buffer for IPC_INFO                               (Linux-specific) */
-} data;
+//union semun
+//{
+  // int              val;    /* Value for SETVAL */
+   //struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+   //unsigned short  *array;  /* Array for GETALL, SETALL */
+   //struct seminfo  *__buf;  /* Buffer for IPC_INFO                               (Linux-specific) */
+//} data;
 
 
 int semcreate(int val)
@@ -84,15 +86,19 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   // set up shared mem NOTE: should be size of (struct game)
-  board_id = shmget(getpid(), sizeof(struct space) * 40, IPC_CREAT | IPC_EXCL);
+  int board_id = shmget(getpid(), sizeof(struct game), IPC_CREAT | IPC_EXCL);
   // send board_id (game id) to all subservers (players)
   int i = 0;
+  int gamepid = getpid();
   for (i = 0; i < 4; i++) {
-    write(to_subservers[i], getpid(), sizeof(int));
+    write(to_subservers[i], &gamepid, sizeof(int));
   }
   // fill out board info (names for spaces, etc.)
-  
+
   while(1) {
     //don't move
   }
+  // remove shared memory when game is over
+  shmdt(&board_id);
+  shmctl(board_id, IPC_RMID, NULL);
 }

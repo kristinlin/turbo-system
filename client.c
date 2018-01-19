@@ -1,11 +1,12 @@
 #include "pipe_networking.h"
 #include "pipe_networking.c"
+#include "board.h"
 
 int money;
-struct space{
+/** struct space{
   char * name;
   int chance;
-  int properties[4];  
+  int properties[4];
 };
 
 struct chance{
@@ -23,20 +24,20 @@ struct turn{
   int dead;
   int curr_index;
   int dues [4];
-};
+}; **/
 
 int main() {
 
-  int to_server; 
-  int from_subserver; 
-  char buffer[BUFFER_SIZE]; 
+  int to_server;
+  int from_subserver;
+  char buffer[BUFFER_SIZE];
   struct chance Space;
 
   from_subserver = client_handshake( &to_server );
 
   //full circle handshake. client->server->subserver->REPEAT
   int buff = getpid();
-  int buff_rec; 
+  int buff_rec;
   printf("Waiting for more players");
   printf("[player] writing: %d\n", buff);
   write(to_server, &buff, sizeof(buff));
@@ -47,6 +48,8 @@ int main() {
     printf("Error. Not connected.\n");
   }
 
-  
+  int game_shm;
+  read(from_subserver, &game_shm, sizeof(int));
+  printf("[splayer] recieved game id: %d\n", game_shm);
   //printf("%d bytes large\n",sizeof() );
 }
