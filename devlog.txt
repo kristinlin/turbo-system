@@ -13,3 +13,6 @@ Completed full circle handshake to ensure that client, server, and subserver are
 leungB -- 2018-01-10 15:36:11
 started work with the semaphores
 
+wenS -- 2018-01-21 21:55:40
+server sends game id to clients who can recieve them
+
