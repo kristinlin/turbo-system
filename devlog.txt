@@ -16,3 +16,6 @@ started work with the semaphores
 wenS -- 2018-01-21 21:55:40
 server sends game id to clients who can recieve them
 
+wenS -- 2018-01-22 19:13:53
+fixed errors with semaphoress
+
