@@ -1,6 +1,7 @@
 #include "pipe_networking.h"
 #include "pipe_networking.c"
 #include "board.h"
+#define KEY 1111
 
 int money;
 /** struct space{

@@ -20,7 +20,6 @@
 #define BUFFER_SIZE 1000
 #define READ 0
 #define WRITE 1
-#define KEY 1111
 
 int server_handshake(int *to_client);
 int client_handshake(int *to_server);
