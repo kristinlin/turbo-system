@@ -5,9 +5,9 @@
   Lazy Foo Productions (http://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#define SDL_MAIN_HANDLED
+//#include <stdio.h>
+//#include <stdlib.h>
+//#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #define SCREEN_w 1212
 #define SCREEN_H 1238
@@ -100,6 +100,7 @@ void game_quit(void) {
 
 //==========================MAIN====================================
 
+/*
 int main(int argc, char* argv[]) {
 
   Game.init();
@@ -135,5 +136,5 @@ int main(int argc, char* argv[]) {
   Game.quit();
   return 0;
 }
-
+*/
 

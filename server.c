@@ -1,6 +1,4 @@
 #include "pipe_networking.h"
-#include "pipe_networking.c"
-#include "game.c"
 #include <signal.h>
 
 

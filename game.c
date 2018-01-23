@@ -4,6 +4,7 @@
 #include <sys/sem.h>
 #include <sys/shm.h>
 #include "board.h"
+#include "main.c"
 #define KEY 1023
 
 /*
@@ -97,9 +98,36 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
   // fill out board info (names for spaces, etc.)
 
-  while(1) {
-    //don't move
+  Game.init(); 
+  //where you want to render the image in the window
+  SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
+  //pixel info of one element (monopoly board)
+  SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
+
+  SDL_Event event;
+  while(Game.running) {
+    while(SDL_PollEvent(&event)) {
+      switch(event.type) {
+  // user exits
+      case SDL_QUIT: {
+  Game.running = SDL_FALSE;
+      } break;
+
+  //you can add stuff like clicking, keyboard events, etc
+      }
+    }
+
+    //render the image
+    SDL_RenderClear(Game.screen.renderer);
+    rect.x = 0, rect.y = 0;
+    SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
+    SDL_RenderPresent(Game.screen.renderer);
   }
+
+  //housekeeping like freeing memory
+  SDL_DestroyTexture(texture1);
+  Game.quit();
+
   // remove shared memory when game is over
   shmdt(&board_id);
   shmctl(board_id, IPC_RMID, NULL);
