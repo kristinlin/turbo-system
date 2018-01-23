@@ -1,60 +1,7 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
 #include <sys/shm.h>
 #include "board.h"
 #include "main.c"
 #define KEY 1023
-
-/*
-Server:
-    There will be an open server on a network that accepts clients (players).
-
-    1. (Kristin) Server will create shared memory:
-      a. struct space board [40] (an array of structs representing spaces on the board- zero being GO and 39 being the space before GO)
-      Struct space will have attributes:
-        i. char * name
-        ii. int chance (0 - don’t draw or 1 - draw)
-        iii. Int properties [4] (each slot holding rent of num player’s property)
-      b. struct chance deck [16]
-      Struct chance will have attributes:
-        i. char * text (text of card)
-        ii. int money (< 0 meaning you owe, > 0 meaning you gain)
-        iii. int space (0 meaning GO, 16 meaning jail, etc.)
-    2. (Brian) Server will create a semaphore, so only 1 person can access each shm.
-      Attach semaphore to struct space board.
-      Attach semaphore to struct chance deck.
-
-      NOTE: Will need the client functions to actually access the semaphore
-*/
-
-//===================ATTRIBUTES===================
-
-
-/*
-  a. int to_subservers [4] (holding file descriptors)
-  b. int from_clients [4] (holding file descriptors)
-  c. int player_indices [4] (holding the index of the space of the board players are occupying in relation to shm’s board)
-  d. int curr_turn (index of player_indices--basically whose turn?)
-  e. int player_gains [4] (holding money each player earned--someone paid rent)
-  f. A struct named start with attributes for receiving from client::
-     i. int index
-     ii. int gains
-  g. struct turn with attributes for sending to subserver:
-     i. int dead (0 for bankrupt, 1 for still alive)
-     ii. int curr_index
-     iii. int dues [5] (owing money to player 0, player 1…, player 3, and BANK)
-*/
-
-
-//union semun
-//{
-  // int              val;    /* Value for SETVAL */
-   //struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
-   //unsigned short  *array;  /* Array for GETALL, SETALL */
-   //struct seminfo  *__buf;  /* Buffer for IPC_INFO                               (Linux-specific) */
-//} data;
 
 
 int semcreate(int val)
