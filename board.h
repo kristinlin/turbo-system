@@ -53,7 +53,7 @@ struct spaces * getshm_space(int space) {
   //attach it to a pointer; obtain info
   struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
   struct spaces * currspace = malloc(sizeof(struct spaces));
-  spaces = shm_val->spaces[space];
+  //struct spaces = shm_val->spaces[space];
   //detach it
   shmdt(shm_val);
   return currspace;
@@ -65,18 +65,19 @@ struct chance * getshm_chance() {
   //attach it to a pointer; obtain info
   struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
   struct chance * chance_card = malloc(sizeof(struct chance));
-  chance_card = shm_val->chance_cards[0];
+  chance_card = &(shm_val->chance_cards[0]);
   //detach it
   shmdt(shm_val);
   return chance_card;
 }
 
 //set a space in shm; make sure to allocate space before passing updated;
-void setshm_space( int space, struct space * updated ) {
+void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(MEMKEY, 0, 0);
   //attach it to a pointer
   struct game * shm_val = (struct game *) shmat(mem_id, 0, 0);
-  shm_val->space[space] = updated;
+
+  (shm_val->spaces[space]) = *updated;
   free(updated);
   //detach it
   shmdt(shm_val);
@@ -89,7 +90,7 @@ struct game * init_struct() {
   //  struct game *starter = malloc(sizeof(struct game));
   //  starter->spaces = malloc(sizeof(struct spaces) * 40);
   //  starter->chance_cards = malloc(sizeof(struct chance) * 14);
-  
+
   //PLEASE REPLACE BELOW WITH CORRECT VALUES
 
   // spaces: GO
