@@ -7,8 +7,7 @@
 struct spaces { // where everyone and their properties are on the board
   char * name;
   int chance; // 0 for don't draw or 1 for draw
-  int property; // 0 = can't buy, 1 = buy
-  int property_sold; // 1 if user decides to buy it, 0 if no, 0 if this is not a property spaces at all
+  int property; // 0 = can't buy, 1 = buy, 2 = possible to buy but sold
   int change_money;// add this value onto the amount of money a player has (this will only have a value if you end on income tax, railroad, community chest, electric company, waterworks, or luxury tax)
   int rent[5]; // [0,0,0,0,0] if property = false, 0th num = base rent w/o properties
   int cost; // of buying the property
@@ -80,7 +79,6 @@ struct game * init_structs() {
   starter.spaces[0].name = "GO";
   starter.spaces[0].chance = 0;
   starter.spaces[0].property = 0;
-  starter.spaces[0].property_sold = 0;
   starter.spaces[0].change_money = 200; // add 200 everytime u land on go
   starter.spaces[0].rent[0] = 0;
   starter.spaces[0].rent[1] = 0;
@@ -95,7 +93,6 @@ struct game * init_structs() {
   starter.spaces[1].name = "Mediterranean Avenue";
   starter.spaces[1].chance = 0;
   starter.spaces[1].property = 1;
-  starter.spaces[1].property_sold = 0;
   starter.spaces[1].change_money = 0;
   starter.spaces[1].rent[0] = 2;
   starter.spaces[1].rent[1] = 10;
@@ -110,7 +107,6 @@ struct game * init_structs() {
   starter.spaces[2].name = "Community Chest";
   starter.spaces[2].chance = 1;
   starter.spaces[2].property = 0;
-  starter.spaces[2].property_sold = 0;
   starter.spaces[2].change_money = 200; // arbitrary number
   starter.spaces[2].rent[0] = 0;
   starter.spaces[2].rent[1] = 0;
@@ -125,7 +121,6 @@ struct game * init_structs() {
   starter.spaces[3].name = "Baltic Avenue";
   starter.spaces[3].chance = 0;
   starter.spaces[3].property = 1;
-  starter.spaces[3].property_sold = 0;
   starter.spaces[3].change_money = 0;
   starter.spaces[3].rent[0] = 4;
   starter.spaces[3].rent[1] = 20;
@@ -140,7 +135,6 @@ struct game * init_structs() {
   starter.spaces[4].name = "Income tax";
   starter.spaces[4].chance = 0;
   starter.spaces[4].property = 0;
-  starter.spaces[4].property_sold = 0;
   starter.spaces[4].change_money = -200;
   starter.spaces[4].rent[0] = 0;
   starter.spaces[4].rent[1] = 0;
@@ -155,7 +149,6 @@ struct game * init_structs() {
   starter.spaces[5].name = "Reading Railroad";
   starter.spaces[5].chance = 0;
   starter.spaces[5].property = 1;
-  starter.spaces[5].property_sold = 0;
   starter.spaces[5].change_money = 0;
   starter.spaces[5].rent[0] = 0;
   starter.spaces[5].rent[1] = 25;
@@ -170,7 +163,6 @@ struct game * init_structs() {
   starter.spaces[6].name = "Oriental Avenue";
   starter.spaces[6].chance = 0;
   starter.spaces[6].property = 1;
-  starter.spaces[6].property_sold = 0;
   starter.spaces[6].change_money = 0;
   starter.spaces[6].rent[0] = 6;
   starter.spaces[6].rent[1] = 30;
@@ -185,7 +177,6 @@ struct game * init_structs() {
   starter.spaces[7].name = "Chance";
   starter.spaces[7].chance = 1;
   starter.spaces[7].property = 0;
-  starter.spaces[7].property_sold = 0;
   starter.spaces[7].change_money = 0;
   starter.spaces[7].rent[0] = 0;
   starter.spaces[7].rent[1] = 0;
@@ -200,7 +191,6 @@ struct game * init_structs() {
   starter.spaces[8].name = "Vermont Avenue";
   starter.spaces[8].chance = 0;
   starter.spaces[8].property = 1;
-  starter.spaces[8].property_sold = 0;
   starter.spaces[8].change_money = 0;
   starter.spaces[8].rent[0] = 6;
   starter.spaces[8].rent[1] = 30;
@@ -215,7 +205,6 @@ struct game * init_structs() {
   starter.spaces[9].name = "Conneticut Avenue";
   starter.spaces[9].chance = 0;
   starter.spaces[9].property = 1;
-  starter.spaces[9].property_sold = 0;
   starter.spaces[9].change_money = 0;
   starter.spaces[9].rent[0] = 8;
   starter.spaces[9].rent[1] = 40;
@@ -230,7 +219,6 @@ struct game * init_structs() {
   starter.spaces[10].name = "Just Visting Jail";
   starter.spaces[10].chance = 0;
   starter.spaces[10].property = 0;
-  starter.spaces[10].property_sold = 0;
   starter.spaces[10].change_money = 0;
   starter.spaces[10].rent[0] = 0;
   starter.spaces[10].rent[1] = 0;
@@ -245,7 +233,6 @@ struct game * init_structs() {
   starter.spaces[11].name = "St. Charles Place";
   starter.spaces[11].chance = 0;
   starter.spaces[11].property = 1;
-  starter.spaces[11].property_sold = 0;
   starter.spaces[11].change_money = 0;
   starter.spaces[11].rent[0] = 10;
   starter.spaces[11].rent[1] = 50;
@@ -261,7 +248,6 @@ struct game * init_structs() {
   starter.spaces[12].name = "Electric Company";
   starter.spaces[12].chance = 0;
   starter.spaces[12].property = 0;
-  starter.spaces[12].property_sold = 0;
   starter.spaces[12].change_money = 0;
   starter.spaces[12].rent[0] = 50;
   starter.spaces[12].rent[1] = 0;
@@ -276,7 +262,6 @@ struct game * init_structs() {
   starter.spaces[13].name = "States Avenue";
   starter.spaces[13].chance = 0;
   starter.spaces[13].property = 1;
-  starter.spaces[13].property_sold = 0;
   starter.spaces[13].change_money = 0;
   starter.spaces[13].rent[0] = 10;
   starter.spaces[13].rent[1] = 50;
@@ -291,7 +276,6 @@ struct game * init_structs() {
   starter.spaces[14].name = "Virginia Avenue";
   starter.spaces[14].chance = 0;
   starter.spaces[14].property = 1;
-  starter.spaces[14].property_sold = 0;
   starter.spaces[14].change_money = 0;
   starter.spaces[14].rent[0] = 12;
   starter.spaces[14].rent[1] = 60;
@@ -306,7 +290,6 @@ struct game * init_structs() {
   starter.spaces[15].name = "Pennsylvania Railroad";
   starter.spaces[15].chance = 0;
   starter.spaces[15].property = 1;
-  starter.spaces[15].property_sold = 0;
   starter.spaces[15].change_money = 0;
   starter.spaces[15].rent[0] = 0;
   starter.spaces[15].rent[1] = 25;
@@ -321,7 +304,6 @@ struct game * init_structs() {
   starter.spaces[16].name = "St. James Place";
   starter.spaces[16].chance = 0;
   starter.spaces[16].property = 1;
-  starter.spaces[16].property_sold = 0;
   starter.spaces[16].change_money = 0;
   starter.spaces[16].rent[0] = 14;
   starter.spaces[16].rent[1] = 70;
@@ -336,7 +318,6 @@ struct game * init_structs() {
   starter.spaces[17].name = "Community Chest";
   starter.spaces[17].chance = 1;
   starter.spaces[17].property = 0;
-  starter.spaces[17].property_sold = 0;
   starter.spaces[17].change_money = 200;
   starter.spaces[17].rent[0] = 50;
   starter.spaces[17].rent[1] = 0;
@@ -351,7 +332,6 @@ struct game * init_structs() {
   starter.spaces[18].name = "Tennessee Avenue";
   starter.spaces[18].chance = 0;
   starter.spaces[18].property = 1;
-  starter.spaces[18].property_sold = 0;
   starter.spaces[18].change_money = 0;
   starter.spaces[18].rent[0] = 14;
   starter.spaces[18].rent[1] = 70;
@@ -366,7 +346,6 @@ struct game * init_structs() {
   starter.spaces[19].name = "New York Avenue";
   starter.spaces[19].chance = 0;
   starter.spaces[19].property = 1;
-  starter.spaces[19].property_sold = 0;
   starter.spaces[19].change_money = 0;
   starter.spaces[19].rent[0] = 16;
   starter.spaces[19].rent[1] = 80;
@@ -381,7 +360,6 @@ struct game * init_structs() {
   starter.spaces[20].name = "Free Parking";
   starter.spaces[20].chance = 0;
   starter.spaces[20].property = 0;
-  starter.spaces[20].property_sold = 0;
   starter.spaces[20].change_money = 0;
   starter.spaces[20].rent[0] = 50;
   starter.spaces[20].rent[1] = 0;
@@ -396,7 +374,6 @@ struct game * init_structs() {
   starter.spaces[21].name = "Kentucky Avenue";
   starter.spaces[21].chance = 0;
   starter.spaces[21].property = 1;
-  starter.spaces[21].property_sold = 0;
   starter.spaces[21].change_money = 0;
   starter.spaces[21].rent[0] = 18;
   starter.spaces[21].rent[1] = 90;
@@ -411,7 +388,6 @@ struct game * init_structs() {
   starter.spaces[22].name = "Chance";
   starter.spaces[22].chance = 1;
   starter.spaces[22].property = 0;
-  starter.spaces[22].property_sold = 0;
   starter.spaces[22].change_money = 0;
   starter.spaces[22].rent[0] = 0;
   starter.spaces[22].rent[1] = 0;
@@ -426,7 +402,6 @@ struct game * init_structs() {
   starter.spaces[23].name = "Indiana Avenue";
   starter.spaces[23].chance = 0;
   starter.spaces[23].property = 1;
-  starter.spaces[23].property_sold = 0;
   starter.spaces[23].change_money = 0;
   starter.spaces[23].rent[0] = 18;
   starter.spaces[23].rent[1] = 90;
@@ -441,7 +416,6 @@ struct game * init_structs() {
   starter.spaces[24].name = "Illinois Avenue";
   starter.spaces[24].chance = 0;
   starter.spaces[24].property = 1;
-  starter.spaces[24].property_sold = 0;
   starter.spaces[24].change_money = 0;
   starter.spaces[24].rent[0] = 20;
   starter.spaces[24].rent[1] = 100;
@@ -456,7 +430,6 @@ struct game * init_structs() {
   starter.spaces[25].name = "B. & O. Railroad";
   starter.spaces[25].chance = 0;
   starter.spaces[25].property = 1;
-  starter.spaces[25].property_sold = 0;
   starter.spaces[25].change_money = 0;
   starter.spaces[25].rent[0] = 0;
   starter.spaces[25].rent[1] = 25;
@@ -471,7 +444,6 @@ struct game * init_structs() {
   starter.spaces[26].name = "Atlantic Avenue";
   starter.spaces[26].chance = 0;
   starter.spaces[26].property = 1;
-  starter.spaces[26].property_sold = 0;
   starter.spaces[26].change_money = 0;
   starter.spaces[26].rent[0] = 22;
   starter.spaces[26].rent[1] = 110;
@@ -486,7 +458,6 @@ struct game * init_structs() {
   starter.spaces[27].name = "Ventnor Avenue";
   starter.spaces[27].chance = 0;
   starter.spaces[27].property = 1;
-  starter.spaces[27].property_sold = 0;
   starter.spaces[27].change_money = 0;
   starter.spaces[27].rent[0] = 22;
   starter.spaces[27].rent[1] = 110;
@@ -502,7 +473,6 @@ struct game * init_structs() {
   starter.spaces[28].name = "Water Works";
   starter.spaces[28].chance = 0;
   starter.spaces[28].property = 0;
-  starter.spaces[28].property_sold = 0;
   starter.spaces[28].change_money = 0;
   starter.spaces[28].rent[0] = 50;
   starter.spaces[28].rent[1] = 0;
@@ -517,7 +487,6 @@ struct game * init_structs() {
   starter.spaces[29].name = "Marvin Gardens";
   starter.spaces[29].chance = 0;
   starter.spaces[29].property = 1;
-  starter.spaces[29].property_sold = 0;
   starter.spaces[29].change_money = 0;
   starter.spaces[29].rent[0] = 24;
   starter.spaces[29].rent[1] = 120;
@@ -533,7 +502,6 @@ struct game * init_structs() {
   starter.spaces[30].name = "Go to Jail";
   starter.spaces[30].chance = 0;
   starter.spaces[30].property = 0;
-  starter.spaces[30].property_sold = 0;
   starter.spaces[30].change_money = -200;
   starter.spaces[30].rent[0] = 0;
   starter.spaces[30].rent[1] = 0;
@@ -548,7 +516,6 @@ struct game * init_structs() {
   starter.spaces[31].name = "Pacific Avenue";
   starter.spaces[31].chance = 0;
   starter.spaces[31].property = 1;
-  starter.spaces[31].property_sold = 0;
   starter.spaces[31].change_money = 0;
   starter.spaces[31].rent[0] = 26;
   starter.spaces[31].rent[1] = 130;
@@ -563,7 +530,6 @@ struct game * init_structs() {
   starter.spaces[32].name = "North Carolina Avenue";
   starter.spaces[32].chance = 0;
   starter.spaces[32].property = 1;
-  starter.spaces[32].property_sold = 0;
   starter.spaces[32].change_money = 0;
   starter.spaces[32].rent[0] = 26;
   starter.spaces[32].rent[1] = 130;
@@ -578,7 +544,6 @@ struct game * init_structs() {
   starter.spaces[33].name = "Community Chest";
   starter.spaces[33].chance = 1;
   starter.spaces[33].property = 0;
-  starter.spaces[33].property_sold = 0;
   starter.spaces[33].change_money = 200;
   starter.spaces[33].rent[0] = 0;
   starter.spaces[33].rent[1] = 0;
@@ -593,7 +558,6 @@ struct game * init_structs() {
   starter.spaces[34].name = "Pennsylvania Avenue";
   starter.spaces[34].chance = 0;
   starter.spaces[34].property = 1;
-  starter.spaces[34].property_sold = 0;
   starter.spaces[34].change_money = 0;
   starter.spaces[34].rent[0] = 28;
   starter.spaces[34].rent[1] = 150;
@@ -608,7 +572,6 @@ struct game * init_structs() {
   starter.spaces[35].name = "Short Line";
   starter.spaces[35].chance = 0;
   starter.spaces[35].property = 1;
-  starter.spaces[35].property_sold = 0;
   starter.spaces[35].change_money = 0;
   starter.spaces[35].rent[0] = 0;
   starter.spaces[35].rent[1] = 25;
@@ -623,7 +586,6 @@ struct game * init_structs() {
   starter.spaces[36].name = "Chance";
   starter.spaces[36].chance = 1;
   starter.spaces[36].property = 0;
-  starter.spaces[36].property_sold = 0;
   starter.spaces[36].change_money = 0;
   starter.spaces[36].rent[0] = 0;
   starter.spaces[36].rent[1] = 0;
@@ -638,7 +600,6 @@ struct game * init_structs() {
   starter.spaces[37].name = "Park Place";
   starter.spaces[37].chance = 0;
   starter.spaces[37].property = 1;
-  starter.spaces[37].property_sold = 0;
   starter.spaces[37].change_money = 0;
   starter.spaces[37].rent[0] = 35;
   starter.spaces[37].rent[1] = 175;
@@ -653,7 +614,6 @@ struct game * init_structs() {
   starter.spaces[38].name = "Luxury Tax";
   starter.spaces[38].chance = 0;
   starter.spaces[38].property = 0;
-  starter.spaces[38].property_sold = 0;
   starter.spaces[38].change_money = -100;
   starter.spaces[38].rent[0] = 0;
   starter.spaces[38].rent[1] = 0;
@@ -668,7 +628,6 @@ struct game * init_structs() {
   starter.spaces[39].name = "Boardwalk";
   starter.spaces[39].chance = 0;
   starter.spaces[39].property = 1;
-  starter.spaces[39].property_sold = 0;
   starter.spaces[39].change_money = 0;
   starter.spaces[39].rent[0] = 50;
   starter.spaces[39].rent[1] = 200;
