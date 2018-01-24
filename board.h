@@ -646,10 +646,10 @@ struct game * init_structs() {
   starter.chance_cards[0].spaces = 0;
   starter.chance_cards[1].text = "Advance to Illinois Avenue";
   starter.chance_cards[1].money = 0;
-  starter.chance_cards[1].spaces = 0;
+  starter.chance_cards[1].spaces = 24;
   starter.chance_cards[2].text = "Advance to St. Charles Place";
   starter.chance_cards[2].money = 0;
-  starter.chance_cards[2].spaces = 0;
+  starter.chance_cards[2].spaces = 11;
   starter.chance_cards[3].text = "Bank pays you dividend of $50";
   starter.chance_cards[3].money = 50;
   starter.chance_cards[3].spaces = 0;
@@ -658,7 +658,7 @@ struct game * init_structs() {
   starter.chance_cards[4].spaces = 0;
   starter.chance_cards[5].text = "Go back 3 spaces.";
   starter.chance_cards[5].money = 0;
-  starter.chance_cards[5].spaces = 0;
+  starter.chance_cards[5].spaces = -3;
   starter.chance_cards[6].text = "Go to Jail";
   starter.chance_cards[6].money = 0;
   starter.chance_cards[6].spaces = 0;
@@ -667,10 +667,10 @@ struct game * init_structs() {
   starter.chance_cards[7].spaces = 0;
   starter.chance_cards[8].text = "Take a trip to Reading Railroad";
   starter.chance_cards[8].money = 0;
-  starter.chance_cards[8].spaces = 0;
-  starter.chance_cards[9].text = "Take a walk on the boardwalkto boardwalk.";
+  starter.chance_cards[8].spaces = 5;
+  starter.chance_cards[9].text = "Take a walk on the boardwalk.";
   starter.chance_cards[9].money = 0;
-  starter.chance_cards[9].spaces = 0;
+  starter.chance_cards[9].spaces = 39;
   starter.chance_cards[10].text = "You have been elected Chairman of the Board - pay each player $50.";
   starter.chance_cards[10].money = -150;
   starter.chance_cards[10].spaces = 0;
