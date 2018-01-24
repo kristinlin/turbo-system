@@ -641,11 +641,47 @@ struct game * init_structs() {
 
   //continue o
   //below are two chance cards
-  starter.chance_cards[0].text = "Go to boardwalk!";
-  starter.chance_cards[0].money = 20;
+  starter.chance_cards[0].text = "Advance to Go";
+  starter.chance_cards[0].money = 0; // if it's on go it should automatically collect $200 i think
   starter.chance_cards[0].spaces = 0;
-  starter.chance_cards[1].text = "Go to boardwalk again!";
-  starter.chance_cards[1].money = 20;
+  starter.chance_cards[1].text = "Advance to Illinois Avenue";
+  starter.chance_cards[1].money = 0;
   starter.chance_cards[1].spaces = 0;
+  starter.chance_cards[2].text = "Advance to St. Charles Place";
+  starter.chance_cards[2].money = 0;
+  starter.chance_cards[2].spaces = 0;
+  starter.chance_cards[3].text = "Bank pays you dividend of $50";
+  starter.chance_cards[3].money = 50;
+  starter.chance_cards[3].spaces = 0;
+  starter.chance_cards[4].text = "Get out of Jail Free";
+  starter.chance_cards[4].money = 0;
+  starter.chance_cards[4].spaces = 0;
+  starter.chance_cards[5].text = "Go back 3 spaces.";
+  starter.chance_cards[5].money = 0;
+  starter.chance_cards[5].spaces = 0;
+  starter.chance_cards[6].text = "Go to Jail";
+  starter.chance_cards[6].money = 0;
+  starter.chance_cards[6].spaces = 0;
+  starter.chance_cards[7].text = "Pay poor tax of $15";
+  starter.chance_cards[7].money = -15;
+  starter.chance_cards[7].spaces = 0;
+  starter.chance_cards[8].text = "Take a trip to Reading Railroad";
+  starter.chance_cards[8].money = 0;
+  starter.chance_cards[8].spaces = 0;
+  starter.chance_cards[9].text = "Take a walk on the boardwalkto boardwalk.";
+  starter.chance_cards[9].money = 0;
+  starter.chance_cards[9].spaces = 0;
+  starter.chance_cards[10].text = "You have been elected Chairman of the Board - pay each player $50.";
+  starter.chance_cards[10].money = -150;
+  starter.chance_cards[10].spaces = 0;
+  starter.chance_cards[11].text = "Your building and loan matures. Collect $150.";
+  starter.chance_cards[11].money = 150;
+  starter.chance_cards[11].spaces = 0;
+  starter.chance_cards[12].text = "You have won a crossword competition.";
+  starter.chance_cards[12].money = 0;
+  starter.chance_cards[12].spaces = 0;
+  starter.chance_cards[13].text = "YOU JUST WON WON THE LOTTERY - AND $1000!";
+  starter.chance_cards[13].money = 1000;
+  starter.chance_cards[13].spaces = 0;
   return &starter;
 }

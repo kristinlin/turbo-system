@@ -22,3 +22,6 @@ fixed errors with semaphoress
 wenS -- 2018-01-24 02:57:32
 hardcoded info for board struct
 
+wenS -- 2018-01-24 13:44:43
+added info for chance cards
+
