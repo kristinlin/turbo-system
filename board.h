@@ -47,33 +47,48 @@ struct turn {
   int dues[4]; //how much money you owe to each player
 };
 
-/*
-//get shm val
-struct game * getshm() {
+//get shm val -- REMEMBER TO FREE AFTER
+struct spaces * getshm_space(int space) {
   int mem_id = shmget(MEMKEY, 0, 0);
   //attach it to a pointer; obtain info
   struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
-  //  struct game updated = malloc(sizeof(struct game));
-  struct game updated = *shm_val;
+  struct spaces * currspace = malloc(sizeof(struct spaces));
+  spaces = shm_val->spaces[space];
   //detach it
   shmdt(shm_val);
-  return &updated;
-  }*/
+  return currspace;
+}
 
-//set new shm val
-void setshm( struct game updated ) {
+//get chance card - randomize later
+struct chance * getshm_chance() {
+  int mem_id = shmget(MEMKEY, 0, 0);
+  //attach it to a pointer; obtain info
+  struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
+  struct chance * chance_card = malloc(sizeof(struct chance));
+  chance_card = shm_val->chance_cards[0];
+  //detach it
+  shmdt(shm_val);
+  return chance_card;
+}
+
+//set a space in shm; make sure to allocate space before passing updated;
+void setshm_space( int space, struct space * updated ) {
   int mem_id = shmget(MEMKEY, 0, 0);
   //attach it to a pointer
   struct game * shm_val = (struct game *) shmat(mem_id, 0, 0);
-  *shm_val = updated;
+  shm_val->space[space] = updated;
+  free(updated);
   //detach it
   shmdt(shm_val);
 }
 
-struct game * init_structs() {
-  struct game *starter = malloc(sizeof(struct game));
-  starter->spaces = malloc(sizeof(struct spaces) * 40);
-  starter->chance_cards = malloc(sizeof(struct chance) * 14);
+//set the shm as the initial board; clear of everything for new game
+struct game * init_struct() {
+
+  struct game * starter;
+  //  struct game *starter = malloc(sizeof(struct game));
+  //  starter->spaces = malloc(sizeof(struct spaces) * 40);
+  //  starter->chance_cards = malloc(sizeof(struct chance) * 14);
   
   //PLEASE REPLACE BELOW WITH CORRECT VALUES
 
@@ -685,5 +700,9 @@ struct game * init_structs() {
   strcpy((*starter).chance_cards[13].text,"YOU JUST WON WON THE LOTTERY - AND $1000!");
   (*starter).chance_cards[13].money = 1000;
   (*starter).chance_cards[13].spaces = 0;
+
+  int mem_id = shmget(MEMKEY, 0, 0);
+  struct game *shm_val = (struct game *) shmat(mem_id, 0, 0);
+  shm_val = starter;
   return starter;
 }

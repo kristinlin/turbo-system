@@ -42,13 +42,10 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   // set up shared mem NOTE: should be size of (struct game)
-  int board_id = shmget(MEMKEY, sizeof(struct game), IPC_CREAT | IPC_EXCL);
-  struct game * starter = init_structs();
-  printf("OK BABES\n");
-  printf("This is the name of the first space: %s\n", starter->spaces[0].name);
-  // free(starter);
-  //  printf("board_id: %d\n", board_id);
-    //  setshm(updated)
+  size_t board_size = sizeof(struct game) + sizeof(struct spaces) * 40 + sizeof(struct chance) * 14;
+  int board_id = shmget(MEMKEY, board_size, IPC_CREAT | IPC_EXCL);
+  init_structs();
+  struct spaces * currspace = getshm_space(0);
 
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
