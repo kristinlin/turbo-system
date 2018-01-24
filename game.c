@@ -4,7 +4,13 @@
 // #define MEMKEY 1123 (i moved this to board.h)
 
 
-union semun initVal;
+union semun {
+  int              val;    /* Value for SETVAL */
+  struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+  unsigned short  *array;  /* Array for GETALL, SETALL */
+  struct seminfo  *__buf;  /* Buffer for IPC_INFO
+			      (Linux-specific) */
+} initVal;
 
 //create a semaphore
 int semcreate(int val)
@@ -37,7 +43,11 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   // set up shared mem NOTE: should be size of (struct game)
   int board_id = shmget(MEMKEY, sizeof(struct game), IPC_CREAT | IPC_EXCL);
-  printf("board_id: %d\n", board_id);
+  struct game * starter = init_structs();
+  printf("OK BABES\n");
+  printf("This is the name of the first space: %s\n", starter->spaces[0].name);
+  // free(starter);
+  //  printf("board_id: %d\n", board_id);
     //  setshm(updated)
 
 
