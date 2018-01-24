@@ -1,5 +1,6 @@
 #include "board.h"
 #include "main.c"
+#include "pipe_networking.h"
 #define SEMKEY 1023
 // #define MEMKEY 1123 (i moved this to board.h)
 
@@ -41,10 +42,10 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     write(to_subservers[x], &buff, sizeof(buff));
   }
 
-  // set up shared mem NOTE: should be size of (struct game)
+  // set up shared mem note: should be size of (struct game)
   size_t board_size = sizeof(struct game) + sizeof(struct spaces) * 40 + sizeof(struct chance) * 14;
   int board_id = shmget(MEMKEY, board_size, IPC_CREAT | IPC_EXCL);
-  init_structs();
+  //init_struct();
   struct spaces * currspace = getshm_space(0);
 
 
