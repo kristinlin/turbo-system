@@ -19,3 +19,6 @@ server sends game id to clients who can recieve them
 wenS -- 2018-01-22 19:13:53
 fixed errors with semaphoress
 
+wenS -- 2018-01-24 02:57:32
+hardcoded info for board struct
+

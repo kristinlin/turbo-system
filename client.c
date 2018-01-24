@@ -72,7 +72,7 @@ int main() {
     printf("Error. Not connected.\n");
   }
 
-  struct game new_turn = getshm();
+  struct game new_turn = *getshm();
 
   //printf("%d bytes large\n",sizeof() );
 }

@@ -1,8 +1,7 @@
-#include <sys/shm.h>
 #include "board.h"
 #include "main.c"
 #define SEMKEY 1023
-#define MEMKEY 1123
+// #define MEMKEY 1123 (i moved this to board.h)
 
 
 union semun initVal;
@@ -38,12 +37,12 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   // set up shared mem NOTE: should be size of (struct game)
   int board_id = shmget(MEMKEY, sizeof(struct game), IPC_CREAT | IPC_EXCL);
-  print(board_id)
+  printf("board_id: %d\n", board_id);
     //  setshm(updated)
 
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Game.init(); 
+  Game.init();
   //where you want to render the image in the window
   SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
   //pixel info of one element (monopoly board)
@@ -70,7 +69,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
+
   //housekeeping like freeing memory
   SDL_DestroyTexture(texture1);
   Game.quit();
