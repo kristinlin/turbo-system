@@ -1,7 +1,8 @@
 #include "pipe_networking.h"
 #include "pipe_networking.c"
 #include "board.h"
-#define KEY 1111
+#define SEMKEY 1023
+#define MEMKEY 1123
 
 int money;
 /** struct space{
@@ -28,6 +29,7 @@ struct turn{
 }; **/
 
 //ignore this, carry on
+/*
 int semview() {
   int semval = semget(KEY, 1, 0600);
   int semcut = semctl(semval, 0, GETVAL);
@@ -45,6 +47,8 @@ int semview() {
   //return semval.data;
   //return data.val+0;
 }
+*/
+
 
 int main() {
 
@@ -68,8 +72,7 @@ int main() {
     printf("Error. Not connected.\n");
   }
 
-  int game_shm;
-  read(from_subserver, &game_shm, sizeof(int));
-  printf("[splayer] recieved game id: %d\n", game_shm);
+  struct game new_turn = getshm();
+
   //printf("%d bytes large\n",sizeof() );
 }

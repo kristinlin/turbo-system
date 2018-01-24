@@ -1,26 +1,27 @@
 #include <sys/shm.h>
 #include "board.h"
 #include "main.c"
-#define KEY 1023
+#define SEMKEY 1023
+#define MEMKEY 1123
 
 
+union semun initVal;
+
+//create a semaphore
 int semcreate(int val)
 {
   int semid;
-  semid = semget(KEY, 1, IPC_EXCL | IPC_CREAT | 0600);
-  if (semid==-1)
-  {
+  semid = semget(SEMKEY, 1, IPC_EXCL | IPC_CREAT | 0600);
+  if (semid==-1)  {
     printf("Oh no this semaphore already exists :(\n");
     return 0;
-  }
-  else
-  {
-    printf("Status code: %d\n",semctl(semid, 0, SETVAL, val));
+  }  else  {
+    initVal.val = 1;
+    printf("Status code: %d\n",semctl(semid, 0, SETVAL, initVal));
     printf("Tada, you have a semaphore now. It's at %d\n",semid);
   }
   return semid;
 }
-
 
 
 void newgame(int from_clients[4], int to_subservers[4]) {
@@ -36,15 +37,12 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   // set up shared mem NOTE: should be size of (struct game)
-  int board_id = shmget(getpid(), sizeof(struct game), IPC_CREAT | IPC_EXCL);
-  // send board_id (game id) to all subservers (players)
-  int i = 0;
-  int gamepid = getpid();
-  for (i = 0; i < 4; i++) {
-    write(to_subservers[i], &gamepid, sizeof(int));
-  }
-  // fill out board info (names for spaces, etc.)
+  int board_id = shmget(MEMKEY, sizeof(struct game), IPC_CREAT | IPC_EXCL);
+  print(board_id)
+    //  setshm(updated)
 
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Game.init(); 
   //where you want to render the image in the window
   SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
@@ -53,14 +51,14 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   SDL_Event event;
   while(Game.running) {
+
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
-  // user exits
+	// user exits
       case SDL_QUIT: {
-  Game.running = SDL_FALSE;
+	Game.running = SDL_FALSE;
       } break;
-
-  //you can add stuff like clicking, keyboard events, etc
+	//you can add stuff like clicking, keyboard events, etc
       }
     }
 
@@ -71,6 +69,8 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     SDL_RenderPresent(Game.screen.renderer);
   }
 
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
   //housekeeping like freeing memory
   SDL_DestroyTexture(texture1);
   Game.quit();
