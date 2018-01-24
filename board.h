@@ -17,6 +17,14 @@ struct spaces { // where everyone and their properties are on the board
   int houses_owned; // num of properties owned
 };
 
+/*
+int property; //0 - can't buy; 1 - for sale, 2 - bought
+int cost; // how much it costs to buy
+int house_cost; //cost of one house
+int total_rent; //starts off as base rent; whenever player buys more, add house_cost to this; limit house_cost * 4; so can't buy more than 3 houses
+*/
+
+
 struct chance { // for chance deck
   char * text;
   int money;
