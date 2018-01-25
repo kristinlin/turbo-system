@@ -11,8 +11,6 @@
 #include <SDL2/SDL.h>
 
 #include <SDL2/SDL_image.h>
-#define SCREEN_w 1212
-#define SCREEN_H 1238
 
 #define SCREEN_w 800
 #define SCREEN_H 800
@@ -118,7 +116,7 @@ int main(int argc, char* argv[]) {
   //pixel info of one element (monopoly board)
   SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
-  SDL_Rect texr; texr.x = 90; texr.y = 70; texr.w = 100; texr.h = 100;
+  SDL_Rect texr; texr.x = 40; texr.y = 670; texr.w = 100; texr.h = 100;
   SDL_Texture* img = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
   //sort of like events in Javascript
   SDL_Event event;
