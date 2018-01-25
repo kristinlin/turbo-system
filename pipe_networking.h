@@ -27,6 +27,8 @@
 #define WRITE 1
 #define ENTER 1
 #define LEAVE 0
+#define SPACES 0
+#define CHANCE 1
 
 int server_handshake(int *to_client);
 int client_handshake(int *to_server);

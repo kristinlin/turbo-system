@@ -61,12 +61,12 @@ int main() {
       }
 
       // get struct space in shm and manage sem
-      gate(ENTER);
+      gate(SPACES, ENTER);
       struct spaces * curr_space = getshm_space(new_turn->curr_index);
-      gate(LEAVE);
+      gate(SPACES, LEAVE);
       printf("YOU ARE ON SPACE: %s\n", curr_space->name);
 
-      // // check if chance card; gate(ENTER AND LEAVE) before and after
+      // // check if chance card; gate(CHANCE, ENTER AND LEAVE) before and after
       // // // look at contents
       // // // free the mem from chance_card
       // // check if rent

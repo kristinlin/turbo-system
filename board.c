@@ -66,8 +66,18 @@ struct turn {
 //====================================================================
 // ACCESSING THE SEM
 
+
+union semun {
+  int              val;    /* Value for SETVAL */
+  struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+  unsigned short  *array;  /* Array for GETALL, SETALL */
+  struct seminfo  *__buf;  /* Buffer for IPC_INFO
+			      (Linux-specific) */
+} initVal;
+
+
 //create two semaphores for both shms
-int semcreate(int val)
+int semcreate()
 {
   int semid;
   semid = error_check(semget(SEMKEY, 2, IPC_EXCL | IPC_CREAT | 0600));
@@ -80,9 +90,10 @@ int semcreate(int val)
 
 
 //SEMVAL = 0 (occupied) ; SEMVAL = 1 (unoccupied)
-int gate( int action ) {
+int gate( int semnum, int action ) {
+  struct sembuf ctlVal;
   int sem_id = semget(SEMKEY, 0, 0);
-  ctlVal.sem_num = 0;
+  ctlVal.sem_num = semnum;
   if (action) {
     ctlVal.sem_op = -1; //enter = 1 
   } else {

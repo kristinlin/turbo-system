@@ -1,13 +1,7 @@
 #include "board.c"
 #include "mainfunctions.c"
 
-union semun {
-  int              val;    /* Value for SETVAL */
-  struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
-  unsigned short  *array;  /* Array for GETALL, SETALL */
-  struct seminfo  *__buf;  /* Buffer for IPC_INFO
-			      (Linux-specific) */
-} initVal;
+
 
 
 
@@ -25,7 +19,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   // set up semaphore
-  int semid = semcreate
+  int semid = semcreate();
   
   // set up both shm for spaces and chance cards
   int spaces_id = error_check(shmget(SPACE_MEMKEY,
