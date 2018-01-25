@@ -28,3 +28,6 @@ added info for chance cards
 linK -- 2018-01-24 22:17:58
 shm finally good
 
+leungB -- 2018-01-25 12:26:33
+got place image on spot working
+
