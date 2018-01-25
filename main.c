@@ -5,12 +5,16 @@
   Lazy Foo Productions (http://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
  */
 
-//#include <stdio.h>
+#include <stdio.h>
 //#include <stdlib.h>
 //#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
+
+#include <SDL2/SDL_image.h>
+
 #define SCREEN_w 800
 #define SCREEN_H 800
+
 #define SCREEN_SCALE 1
 #define SCREEN_NAME "Monopoly"
 
@@ -78,6 +82,8 @@ void game_init(void) {
   Game.running = SDL_TRUE;
   //load image
   Game.screen.loaded_surface = SDL_LoadBMP("images/board.bmp");
+
+  //Some other stuff  img = 
 }
 
 //------------------------------------------------------
@@ -100,7 +106,7 @@ void game_quit(void) {
 
 //==========================MAIN====================================
 
-/*
+
 int main(int argc, char* argv[]) {
 
   Game.init();
@@ -110,14 +116,16 @@ int main(int argc, char* argv[]) {
   //pixel info of one element (monopoly board)
   SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
+  SDL_Rect texr; texr.x = 40; texr.y = 670; texr.w = 100; texr.h = 100;
+  SDL_Texture* img = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
   //sort of like events in Javascript
   SDL_Event event;
   while(Game.running) {
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
-	// user exits
+	     // user exits
       case SDL_QUIT: {
-	Game.running = SDL_FALSE;
+	     Game.running = SDL_FALSE;
       } break;
 
 	//you can add stuff like clicking, keyboard events, etc
@@ -128,7 +136,9 @@ int main(int argc, char* argv[]) {
     SDL_RenderClear(Game.screen.renderer);
     rect.x = 0, rect.y = 0;
     SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
+    SDL_RenderCopy(Game.screen.renderer, img, NULL, &texr);
     SDL_RenderPresent(Game.screen.renderer);
+
   }
 
   //housekeeping like freeing memory
@@ -136,5 +146,3 @@ int main(int argc, char* argv[]) {
   Game.quit();
   return 0;
 }
-*/
-

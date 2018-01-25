@@ -5,7 +5,7 @@ server: server.c
 client: client.c
 	gcc -g -o client client.c
 sdl: main.c
-	gcc -I/usr/include/SDL/ main.c -o sdltest -L/usr/lib -lSDL2
+	gcc -I/usr/include/SDL/ main.c -o sdltest -L/usr/lib -lSDL2 -lSDL2_image
 runsdl: sdl
 	./sdltest
 board: board.h
