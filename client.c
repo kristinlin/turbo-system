@@ -2,7 +2,6 @@
 #include "pipe_networking.c"
 #include "board.h"
 #define SEMKEY 1023
-#define MEMKEY 1123
 
 /*int semview() {
   int semval = semget(KEY, 1, 0600);
@@ -74,17 +73,18 @@ int main() {
     // // rand int 1 - 12
 
     int dice = rand() % 12 + 1;
+    printf("YOU JUST ROLLED THE DICE: %d\n", dice);
     // // sets turn's curr index correctly
     new_turn->curr_index = new_update->position[player_num] + dice;
     if (new_turn->curr_index > 39) {
       money += 200;
       new_turn->curr_index = new_turn->curr_index % 40;
     }
-    
+
     // // get struct space
     struct spaces * curr_space = getshm_space(new_turn->curr_index);
-    printf("YOU ARE ON SPACE.");
     printf("YOU ARE ON SPACE: %s\n", curr_space->name);
+
     // // check if chance card
     // // // look at contents
     // // check if rent

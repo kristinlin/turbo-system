@@ -10,9 +10,10 @@ static void sighandler(int);
 void subserver_player(int, int, int);
 
 static void sighandler(int signo) {
-  int mem_id = shmget(MEMKEY, 0, 0);
+  int mem_id = shmget(SPACE_MEMKEY, 0, 0);
   shmctl(mem_id, IPC_RMID, NULL);
   if (signo == SIGINT) {
+    printf("THis was the error: %s\n", strerror(errno));
     remove(PIPE_NAME);
     exit(0);
   }

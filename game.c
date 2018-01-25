@@ -42,17 +42,20 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     write(to_subservers[x], &x, sizeof(int));
   }
 
-  // set up shared mem note: should be size of (struct game) and innards
-  int board_size = sizeof(struct game) + sizeof(struct spaces) * 40 + sizeof(struct chance) * 14;
-  int board_id = error_check(shmget(MEMKEY,
-				    board_size,
+  // set up both shm for spaces and chance cards
+  int spaces_id = error_check(shmget(SPACE_MEMKEY,
+				    sizeof(struct spaces) *40,
 				    IPC_CREAT | IPC_EXCL | 0744));
+  int spaces_id = error_check(shmget(CHANCE_MEMKEY,
+				    sizeof(struct chance) *14,
+				    IPC_CREAT | IPC_EXCL | 0744));
+
+
   //putting info in
-
-  init_struct();
-  struct spaces * currspace = getshm_space(0);
-  printf("This is space 0, and it's name is: %s\n", currspace->name);
-
+  init_spaces();
+  init_chances();
+  srand(getpid());
+  
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Game.init();
   //where you want to render the image in the window
@@ -117,5 +120,5 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   Game.quit();
 
   // remove shared memory when game is over
-  shmctl(board_id, IPC_RMID, NULL);
+  shmctl(spaces_id, IPC_RMID, NULL);
 }
