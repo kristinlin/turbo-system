@@ -25,6 +25,8 @@
 #define BUFFER_SIZE 1000
 #define READ 0
 #define WRITE 1
+#define ENTER 1
+#define LEAVE 0
 
 int server_handshake(int *to_client);
 int client_handshake(int *to_server);

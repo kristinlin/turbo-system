@@ -9,21 +9,6 @@ union semun {
 			      (Linux-specific) */
 } initVal;
 
-//create a semaphore
-int semcreate(int val)
-{
-  int semid;
-  semid = semget(SEMKEY, 1, IPC_EXCL | IPC_CREAT | 0600);
-  if (semid==-1)  {
-    printf("Oh no this semaphore already exists :(\n");
-    return 0;
-  }  else  {
-    initVal.val = 1;
-    printf("Status code: %d\n",semctl(semid, 0, SETVAL, initVal));
-    printf("Tada, you have a semaphore now. It's at %d\n",semid);
-  }
-  return semid;
-}
 
 
 void newgame(int from_clients[4], int to_subservers[4]) {
@@ -40,7 +25,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   // set up semaphore
-  //  int semid = semcreate
+  int semid = semcreate
   
   // set up both shm for spaces and chance cards
   int spaces_id = error_check(shmget(SPACE_MEMKEY,
@@ -50,13 +35,14 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 				    sizeof(struct chance) *14,
 				    IPC_CREAT | IPC_EXCL | 0744));
 
-
-  //putting info in
+  //putting info in and seeding randomizer
   init_spaces();
   init_chance();
   srand(getpid());
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // GAME LOOP
+  
   Game.init();
   //where you want to render the image in the window
   SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
@@ -114,6 +100,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   }
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //CLEAN UP
 
   //housekeeping like freeing memory
   SDL_DestroyTexture(texture1);

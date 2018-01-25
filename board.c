@@ -64,6 +64,35 @@ struct turn {
 
 
 //====================================================================
+// ACCESSING THE SEM
+
+//create two semaphores for both shms
+int semcreate(int val)
+{
+  int semid;
+  semid = error_check(semget(SEMKEY, 2, IPC_EXCL | IPC_CREAT | 0600));
+  initVal.val = 1;
+  printf("Status code: %d\n",semctl(semid, 0, SETVAL, initVal));
+  printf("Status code: %d\n",semctl(semid, 1, SETVAL, initVal));
+  printf("Tada, you have a semaphore now. It's at %d\n", semid);
+  return semid;
+}
+
+
+//SEMVAL = 0 (occupied) ; SEMVAL = 1 (unoccupied)
+int gate( int action ) {
+  int sem_id = semget(SEMKEY, 0, 0);
+  ctlVal.sem_num = 0;
+  if (action) {
+    ctlVal.sem_op = -1; //enter = 1 
+  } else {
+    ctlVal.sem_op = 1; //leave = 2
+  }
+  semop(sem_id, &ctlVal, 1);
+}
+
+
+//====================================================================
 // ACCESSING THE SHM
 
 
@@ -71,6 +100,7 @@ struct turn {
 struct spaces * getshm_space(int space) {
 
   int mem_id = error_check(shmget(SPACE_MEMKEY, 0, 0));
+
   //attach it to a pointer; obtain info
   struct spaces * shm_spaces = (struct spaces*) shmat(mem_id, 0, SHM_RDONLY);
   struct spaces * currspace = (struct spaces*)malloc(sizeof(struct spaces));
@@ -87,6 +117,7 @@ struct spaces * getshm_space(int space) {
   currspace->house_cost = shm_spaces[space].house_cost;
   currspace->owner = shm_spaces[space].owner;
   currspace->houses_owned = shm_spaces[space].houses_owned;
+
   //detach it
   shmdt(shm_spaces);
   return currspace;
@@ -96,6 +127,7 @@ struct spaces * getshm_space(int space) {
 //get chance card -- REMEMBER TO FREE AFTER
 struct chance * getshm_chance() {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
+
   //attach it to a pointer; obtain info
   struct chance * shm_chance = (struct chance *) shmat(mem_id, 0, SHM_RDONLY);
   struct chance * chance_card = malloc(sizeof(struct chance));
@@ -103,14 +135,17 @@ struct chance * getshm_chance() {
   strcpy(chance_card->text, shm_chance[rand_card].text);
   chance_card->money = shm_chance[rand_card].money;
   chance_card->spaces = shm_chance[rand_card].spaces;
+
   //detach it
   shmdt(shm_chance);
   return chance_card;
   }
 
+
 //set a space in shm; make sure to allocate space before passing updated;
 void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
+
   //attach it to a pointer
   struct spaces * shm_spaces = (struct spaces *) shmat(mem_id, 0, 0);
   strcpy(shm_spaces[space].name, updated->name);
@@ -126,6 +161,7 @@ void setshm_space( int space, struct spaces * updated ) {
   shm_spaces[space].rent[2] = updated->rent[2];
   shm_spaces[space].rent[3] = updated->rent[3];
   shm_spaces[space].rent[4] = updated->rent[4];
+
   //detach it
   shmdt(shm_spaces);
   free(updated);
