@@ -2,7 +2,6 @@
 #include "main.c"
 #include "pipe_networking.h"
 #define SEMKEY 1023
-// #define MEMKEY 1123 (i moved this to board.h)
 
 
 union semun {
@@ -42,12 +41,15 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     write(to_subservers[x], &buff, sizeof(buff));
   }
 
-  // set up shared mem note: should be size of (struct game)
-  size_t board_size = sizeof(struct game) + sizeof(struct spaces) * 40 + sizeof(struct chance) * 14;
-  int board_id = shmget(MEMKEY, board_size, IPC_CREAT | IPC_EXCL);
-  //init_struct();
+  // set up shared mem note: should be size of (struct game) and innards
+  int board_size = sizeof(struct game) + sizeof(struct spaces) * 40 + sizeof(struct chance) * 14;
+  int board_id = error_check(shmget(MEMKEY,
+				    board_size,
+				    IPC_CREAT | IPC_EXCL | 0777));
+  //putting info in
+  init_struct();
   struct spaces * currspace = getshm_space(0);
-
+  printf("This is space 0, and it's name is: %s\n", currspace->name);
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Game.init();
@@ -83,6 +85,5 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   Game.quit();
 
   // remove shared memory when game is over
-  shmdt(&board_id);
   shmctl(board_id, IPC_RMID, NULL);
 }

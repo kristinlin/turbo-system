@@ -25,3 +25,6 @@ hardcoded info for board struct
 wenS -- 2018-01-24 13:44:43
 added info for chance cards
 
+linK -- 2018-01-24 22:17:58
+shm finally good
+

@@ -10,6 +10,8 @@ static void sighandler(int);
 void subserver_player(int, int, int);
 
 static void sighandler(int signo) {
+  int mem_id = shmget(MEMKEY, 0, 0);
+  shmctl(mem_id, IPC_RMID, NULL);
   if (signo == SIGINT) {
     remove(PIPE_NAME);
     exit(0);

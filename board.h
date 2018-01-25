@@ -2,26 +2,49 @@
 #include <sys/types.h>
 #include <sys/shm.h>
 
-// structs
+int error_check(int err) {
+  if (err < 0) {
+    printf("This was the error: %s\n", strerror(errno));
+    exit(1);
+  }
+  return err;
+}
 
-struct spaces { // where everyone and their properties are on the board
+
+//====================================================================
+// DEFINING STRUCTS
+
+
+// where everyone and their properties are on the board
+struct spaces { 
+
   char name[256];
-  int chance; // 0 for don't draw or 1 for draw
-  int property; // 0 = can't buy, 1 = buy, 2 = possible to buy but sold
-  int change_money;// add this value onto the amount of money a player has (this will only have a value if you end on income tax, railroad, community chest, electric company, waterworks, or luxury tax)
-  int rent[5]; // [0,0,0,0,0] if property = false, 0th num = base rent w/o properties
-  int cost; // of buying the property
-  int owner; // player/subserver # = owner, -1 if no one owns it by default!!
-  int house_cost;
-  int houses_owned; // num of properties owned
-};
 
-/*
-int property; //0 - can't buy; 1 - for sale, 2 - bought
-int cost; // how much it costs to buy
-int house_cost; //cost of one house
-int total_rent; //starts off as base rent; whenever player buys more, add house_cost to this; limit house_cost * 4; so can't buy more than 3 houses
-*/
+  // 0 for don't draw or 1 for draw
+  int chance;
+
+  // 0 = can't buy, 1 = buy, 2 = possible to buy but sold
+  int property;
+
+  // add this value onto the amount of money a player has (this will only have a value if you end on income tax, railroad, community chest, electric company, waterworks, or luxury tax)
+  int change_money;
+
+  // of buying the property
+  int cost;
+
+  // player/subserver # = owner, -1 if no one owns it by default!!
+  int owner;
+
+  //how much it coses to buy one house
+  int house_cost;
+
+  // num of properties owned
+  int houses_owned;
+
+  // [0,0,0,0,0] if property = false, 0th num = base rent w/o properties
+  int rent[5]; 
+
+};
 
 
 struct chance { // for chance deck
@@ -47,25 +70,32 @@ struct turn {
   int dues[4]; //how much money you owe to each player
 };
 
+
+//====================================================================
+// ACCESSING THE SHM
+
+
 //get shm val -- REMEMBER TO FREE AFTER
 struct spaces * getshm_space(int space) {
-  int mem_id = shmget(MEMKEY, 0, 0);
+  int mem_id = error_check(shmget(MEMKEY, 0, 0));
   //attach it to a pointer; obtain info
-  struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
+  struct game * shm_val = (struct game*) shmat(mem_id, 0, SHM_RDONLY);
   struct spaces * currspace = malloc(sizeof(struct spaces));
-  //struct spaces = shm_val->spaces[space];
+  currspace = &(shm_val->spaces[space]);
   //detach it
   shmdt(shm_val);
   return currspace;
 }
 
-//get chance card - randomize later
+
+//get chance card -- REMEMBER TO FREE AFTER
 struct chance * getshm_chance() {
   int mem_id = shmget(MEMKEY, 0, 0);
   //attach it to a pointer; obtain info
   struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
   struct chance * chance_card = malloc(sizeof(struct chance));
-  chance_card = &(shm_val->chance_cards[0]);
+  int rand_card = rand() % 15;
+  chance_card = &(shm_val->chance_cards[rand_card]);
   //detach it
   shmdt(shm_val);
   return chance_card;
@@ -76,20 +106,29 @@ void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(MEMKEY, 0, 0);
   //attach it to a pointer
   struct game * shm_val = (struct game *) shmat(mem_id, 0, 0);
-
-  (shm_val->spaces[space]) = *updated;
-  free(updated);
+  shm_val->spaces[space] = *updated;
   //detach it
   shmdt(shm_val);
+  free(updated);
+}
+
+
+
+//====================================================================
+// INIT THE SHM WITH THE INIT BOARD
+
+int free_all(struct game * trash) {
+  free(trash->spaces);
+  free(trash->chance_cards);
+  free(trash);
 }
 
 //set the shm as the initial board; clear of everything for new game
 struct game * init_struct() {
 
-  struct game * starter;
-  //  struct game *starter = malloc(sizeof(struct game));
-  //  starter->spaces = malloc(sizeof(struct spaces) * 40);
-  //  starter->chance_cards = malloc(sizeof(struct chance) * 14);
+  struct game *starter = malloc(sizeof(struct game));
+  starter->spaces = malloc(sizeof(struct spaces) * 40);
+  starter->chance_cards = malloc(sizeof(struct chance) * 14);
 
   //PLEASE REPLACE BELOW WITH CORRECT VALUES
 
@@ -702,8 +741,11 @@ struct game * init_struct() {
   (*starter).chance_cards[13].money = 1000;
   (*starter).chance_cards[13].spaces = 0;
 
+  //add the starter game struct to the actual shm
   int mem_id = shmget(MEMKEY, 0, 0);
   struct game *shm_val = (struct game *) shmat(mem_id, 0, 0);
-  shm_val = starter;
-  return starter;
+  *shm_val = *starter;
+  shmdt(shm_val);
+  srand(getpid());
 }
+
