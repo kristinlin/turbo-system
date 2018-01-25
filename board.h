@@ -16,7 +16,7 @@ int error_check(int err) {
 
 
 // where everyone and their properties are on the board
-struct spaces { 
+struct spaces {
 
   char name[256];
 
@@ -42,7 +42,7 @@ struct spaces {
   int houses_owned;
 
   // [0,0,0,0,0] if property = false, 0th num = base rent w/o properties
-  int rent[5]; 
+  int rent[5];
 
 };
 
@@ -117,7 +117,7 @@ void setshm_space( int space, struct spaces * updated ) {
 //====================================================================
 // INIT THE SHM WITH THE INIT BOARD
 
-int free_all(struct game * trash) {
+void free_all(struct game * trash) {
   free(trash->spaces);
   free(trash->chance_cards);
   free(trash);
@@ -747,5 +747,5 @@ struct game * init_struct() {
   *shm_val = *starter;
   shmdt(shm_val);
   srand(getpid());
+  return starter;
 }
-

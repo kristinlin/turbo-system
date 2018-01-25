@@ -47,7 +47,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 				    board_size,
 				    IPC_CREAT | IPC_EXCL | 0777));
   //putting info in
-  
+
   init_struct();
   struct spaces * currspace = getshm_space(0);
   printf("This is space 0, and it's name is: %s\n", currspace->name);
@@ -63,7 +63,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   int player = rand() % 4; // current player
   //struct update
   // struct start
-  
+
   while(Game.running) {
 
     while(SDL_PollEvent(&event)) {
@@ -89,7 +89,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     //read from current player for turn struct
     // changes player indices in struct update and dues
     // if dead, mark somehow
-    
+
     //next player
   }
 
