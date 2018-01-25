@@ -12,8 +12,8 @@
 
 #include <SDL2/SDL_image.h>
 
-#define SCREEN_w 800
-#define SCREEN_H 800
+#define SCREEN_w 1000
+#define SCREEN_H 1000
 
 #define SCREEN_SCALE 1
 #define SCREEN_NAME "Monopoly"
@@ -81,7 +81,7 @@ void game_init(void) {
   //game is now running
   Game.running = SDL_TRUE;
   //load image
-  Game.screen.loaded_surface = SDL_LoadBMP("images/board.bmp");
+  Game.screen.loaded_surface = SDL_LoadBMP("images/hello_world.bmp");
 
   //Some other stuff  img = 
 }
@@ -116,19 +116,23 @@ int main(int argc, char* argv[]) {
   //pixel info of one element (monopoly board)
   SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
+
+  //ISOLATE
   SDL_Rect texr; texr.x = 40; texr.y = 670; texr.w = 100; texr.h = 100;
   SDL_Texture* img = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
+  //ISOLATE
+
   //sort of like events in Javascript
   SDL_Event event;
   while(Game.running) {
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
-	     // user exits
+       // user exits
       case SDL_QUIT: {
-	     Game.running = SDL_FALSE;
+       Game.running = SDL_FALSE;
       } break;
 
-	//you can add stuff like clicking, keyboard events, etc
+  //you can add stuff like clicking, keyboard events, etc
       }
     }
 
