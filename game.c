@@ -47,6 +47,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 				    board_size,
 				    IPC_CREAT | IPC_EXCL | 0777));
   //putting info in
+  
   init_struct();
   struct spaces * currspace = getshm_space(0);
   printf("This is space 0, and it's name is: %s\n", currspace->name);
@@ -59,6 +60,10 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
   SDL_Event event;
+  int player = rand() % 4; // current player
+  //struct update
+  // struct start
+  
   while(Game.running) {
 
     while(SDL_PollEvent(&event)) {
@@ -76,6 +81,16 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     rect.x = 0, rect.y = 0;
     SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
     SDL_RenderPresent(Game.screen.renderer);
+
+    //send everyone update struct (for loop)
+
+    //send to just the current player;
+
+    //read from current player for turn struct
+    // changes player indices in struct update and dues
+    // if dead, mark somehow
+    
+    //next player
   }
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

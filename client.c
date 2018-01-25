@@ -5,32 +5,8 @@
 #define MEMKEY 1123
 
 int money;
-/** struct space{
-  char * name;
-  int chance;
-  int properties[4];
-};
 
-struct chance{
-  char * text;
-  int money;
-  int space;
-};
-
-struct start{
-  int index;
-  int gains;
-};
-
-struct turn{
-  int dead;
-  int curr_index;
-  int dues [4];
-}; **/
-
-//ignore this, carry on
-/*
-int semview() {
+/*int semview() {
   int semval = semget(KEY, 1, 0600);
   int semcut = semctl(semval, 0, GETVAL);
   printf("%d\n",semcut);
@@ -72,7 +48,24 @@ int main() {
     printf("Error. Not connected.\n");
   }
 
-  //  struct game new_turn = *getshm();
+  // struct game new_turn = *getshm();
 
-  //printf("%d bytes large\n",sizeof() );
+  // get update struct,
+  // update money
+
+  // if it's your turn;
+  // // read again to get turn struct
+  // // rand int 1 - 12
+  // // sets turn's curr index correctly
+  // // get struct space
+  // // check if chance card
+  // // // look at contents
+  // // check if rent
+  // // // update client money; etc. 
+  // // ask user if they want property (if available)
+  // // // change money
+  // // // change struct space
+  // // write turn back
+  // // if dead, exit now
+
 }
