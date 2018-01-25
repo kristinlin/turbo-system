@@ -1,8 +1,3 @@
-#define SPACE_MEMKEY 1123
-#define CHANCE_MEMKEY 1322
-#include <sys/types.h>
-#include <sys/shm.h>
-
 int error_check(int err) {
   printf("%d\n", err);
   if (err < 0) {

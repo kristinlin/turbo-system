@@ -1,8 +1,5 @@
-#include "board.h"
+#include "board.c"
 #include "mainfunctions.c"
-#include "pipe_networking.h"
-#define SEMKEY 1023
-
 
 union semun {
   int              val;    /* Value for SETVAL */
@@ -42,6 +39,9 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     write(to_subservers[x], &x, sizeof(int));
   }
 
+  // set up semaphore
+  //  int semid = semcreate
+  
   // set up both shm for spaces and chance cards
   int spaces_id = error_check(shmget(SPACE_MEMKEY,
 				    sizeof(struct spaces) *40,
@@ -122,4 +122,5 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   // remove shared memory when game is over
   shmctl(spaces_id, IPC_RMID, NULL);
   shmctl(chances_id, IPC_RMID, NULL);
+  //  semctl(
 }

@@ -1,7 +1,7 @@
 #include "pipe_networking.h"
 #include "pipe_networking.c"
-#include "board.h"
-#define SEMKEY 1023
+#include "board.c"
+
 
 /*int semview() {
   int semval = semget(KEY, 1, 0600);

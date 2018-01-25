@@ -9,7 +9,12 @@
 #include <ctype.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
+#include <sys/shm.h>
+#include <signal.h>
 
+#define SPACE_MEMKEY 1123
+#define CHANCE_MEMKEY 1322
+#define SEMKEY 1023
 
 #ifndef NETWORKING_H
 #define NETWORKING_H
