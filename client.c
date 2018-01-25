@@ -32,7 +32,7 @@ int main() {
   int from_subserver;
   char buffer[BUFFER_SIZE];
   struct turn * new_turn;
-  new_turn = (struct turn *)malloc(sizeof(turn));
+  new_turn = (struct turn *)malloc(sizeof(struct turn));
 
   from_subserver = client_handshake( &to_server );
 
@@ -73,9 +73,14 @@ int main() {
     // // rand int 1 - 12
 
     int dice = rand() % 12 + 1;
-    //    new_turn->curr_index
     // // sets turn's curr index correctly
+    new_turn->curr_index = new_update->position[player_num] + dice;
+    if (new_turn->curr_index > 39) {
+      money += 200;
+      new_turn->curr_index = new_turn->curr_index % 40;
+    }   
     // // get struct space
+    printf("YOU ARE ON SPACE: %s\n", getshm_space(dice)->name);
     // // check if chance card
     // // // look at contents
     // // check if rent

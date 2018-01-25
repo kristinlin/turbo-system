@@ -136,7 +136,7 @@ struct game * init_struct() {
   strcpy((*starter).spaces[0].name, "GO");
   (*starter).spaces[0].chance = 0;
   (*starter).spaces[0].property = 0;
-  (*starter).spaces[0].change_money = 200; // add 200 everytime u land on go
+  (*starter).spaces[0].change_money = 0;
   (*starter).spaces[0].rent[0] = 0;
   (*starter).spaces[0].rent[1] = 0;
   (*starter).spaces[0].rent[2] = 0;
