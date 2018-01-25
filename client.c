@@ -26,6 +26,7 @@
 
 int main() {
 
+
   int player_num;
   int money = 0;
   int to_server;
@@ -78,9 +79,12 @@ int main() {
     if (new_turn->curr_index > 39) {
       money += 200;
       new_turn->curr_index = new_turn->curr_index % 40;
-    }   
+    }
+    
     // // get struct space
-    printf("YOU ARE ON SPACE: %s\n", getshm_space(dice)->name);
+    struct spaces * curr_space = getshm_space(new_turn->curr_index);
+    printf("YOU ARE ON SPACE.");
+    printf("YOU ARE ON SPACE: %s\n", curr_space->name);
     // // check if chance card
     // // // look at contents
     // // check if rent

@@ -3,6 +3,7 @@
 #include <sys/shm.h>
 
 int error_check(int err) {
+  printf("%d\n", err);
   if (err < 0) {
     printf("This was the error: %s\n", strerror(errno));
     exit(1);
@@ -77,11 +78,31 @@ struct turn {
 
 //get shm val -- REMEMBER TO FREE AFTER
 struct spaces * getshm_space(int space) {
+
   int mem_id = error_check(shmget(MEMKEY, 0, 0));
   //attach it to a pointer; obtain info
-  struct game * shm_val = (struct game*) shmat(mem_id, 0, SHM_RDONLY);
+  struct game * shm_val = malloc(sizeof(struct game));
+  shm_val = (struct game*) shmat(mem_id, 0, SHM_RDONLY);
+  printf("1 What?\n");
   struct spaces * currspace = malloc(sizeof(struct spaces));
-  currspace = &(shm_val->spaces[space]);
+  printf("2 What?\n");
+  strcpy(currspace->name, shm_val->spaces[space].name);
+  printf("2 What?\n");
+  currspace->chance = shm_val->spaces[space].chance;
+  printf("2 What?\n");
+  currspace->property = shm_val->spaces[space].property;
+  currspace->change_money = shm_val->spaces[space].change_money;
+  currspace->rent[0] = shm_val->spaces[space].rent[0];
+  currspace->rent[1] = shm_val->spaces[space].rent[1];
+  currspace->rent[2] = shm_val->spaces[space].rent[2];
+  currspace->rent[3] = shm_val->spaces[space].rent[3];
+  currspace->rent[4] = shm_val->spaces[space].rent[4];
+  currspace->cost = shm_val->spaces[space].cost;
+  currspace->house_cost = shm_val->spaces[space].house_cost;
+  currspace->owner = shm_val->spaces[space].owner;
+  currspace->houses_owned = shm_val->spaces[space].houses_owned;
+  printf("3 What?\n");
+  printf("This is space: %s\n", currspace->name);
   //detach it
   shmdt(shm_val);
   return currspace;

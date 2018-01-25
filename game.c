@@ -46,7 +46,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   int board_size = sizeof(struct game) + sizeof(struct spaces) * 40 + sizeof(struct chance) * 14;
   int board_id = error_check(shmget(MEMKEY,
 				    board_size,
-				    IPC_CREAT | IPC_EXCL | 0777));
+				    IPC_CREAT | IPC_EXCL | 0744));
   //putting info in
 
   init_struct();
