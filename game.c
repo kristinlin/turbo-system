@@ -39,6 +39,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     read(from_clients[x], &buff, sizeof(buff));
     printf("[mainserver] received: %d\n", buff);
     write(to_subservers[x], &buff, sizeof(buff));
+    write(to_subservers[x], &x, sizeof(int));
   }
 
   // set up shared mem note: should be size of (struct game) and innards
@@ -60,10 +61,19 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
   SDL_Event event;
-  int player = rand() % 4; // current player
-  //struct update
-  // struct start
 
+  //struct update
+  struct update * start_update = (struct update *)malloc(sizeof(struct update));
+  start_update->curr_player = rand() % 4; // current player
+  int i= 0;
+  for (i = 0; i < 4; i++) {
+    start_update->position[i] = 0;
+    start_update->gains[i] = 1500;
+  }
+  
+  // struct turn
+  struct turn * start_turn = (struct turn *)malloc(sizeof(struct turn));
+  
   while(Game.running) {
 
     while(SDL_PollEvent(&event)) {
@@ -76,17 +86,24 @@ void newgame(int from_clients[4], int to_subservers[4]) {
       }
     }
 
+    //send everyones update struct (for loop)
+    printf("This is what every player gets: %d\n", start_update->gains[0]);
+    for (i = 0; i < 4; i++) {
+      write(to_subservers[i], start_update, sizeof(struct update));
+    }
+
+    //change the image
+
     //render the image
     SDL_RenderClear(Game.screen.renderer);
     rect.x = 0, rect.y = 0;
     SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
     SDL_RenderPresent(Game.screen.renderer);
 
-    //send everyone update struct (for loop)
-
-    //send to just the current player;
-
     //read from current player for turn struct
+    read(from_clients[start_update->curr_player],
+	 start_turn, sizeof(struct turn));
+	 
     // changes player indices in struct update and dues
     // if dead, mark somehow
 
