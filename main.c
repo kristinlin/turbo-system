@@ -9,9 +9,14 @@
 //#include <stdlib.h>
 //#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
+
 #include <SDL2/SDL_image.h>
 #define SCREEN_w 1212
 #define SCREEN_H 1238
+
+#define SCREEN_w 800
+#define SCREEN_H 800
+
 #define SCREEN_SCALE 1
 #define SCREEN_NAME "Monopoly"
 
@@ -58,7 +63,7 @@ struct {
 
 void game_init(void) {
   if(SDL_Init(SDL_INIT_EVERYTHING)!=0) {
-    printf("SDL error -> %sn", SDL_GetError());
+    printf("SDL error -> %s\n", SDL_GetError());
     exit(1);
   }
 
