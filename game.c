@@ -1,5 +1,5 @@
 #include "board.h"
-#include "main.c"
+#include "mainfunctions.c"
 #include "pipe_networking.h"
 #define SEMKEY 1023
 
@@ -46,14 +46,14 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   int spaces_id = error_check(shmget(SPACE_MEMKEY,
 				    sizeof(struct spaces) *40,
 				    IPC_CREAT | IPC_EXCL | 0744));
-  int spaces_id = error_check(shmget(CHANCE_MEMKEY,
+  int chances_id = error_check(shmget(CHANCE_MEMKEY,
 				    sizeof(struct chance) *14,
 				    IPC_CREAT | IPC_EXCL | 0744));
 
 
   //putting info in
   init_spaces();
-  init_chances();
+  init_chance();
   srand(getpid());
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,4 +121,5 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   // remove shared memory when game is over
   shmctl(spaces_id, IPC_RMID, NULL);
+  shmctl(chances_id, IPC_RMID, NULL);
 }

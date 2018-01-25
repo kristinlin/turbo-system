@@ -102,12 +102,14 @@ struct spaces * getshm_space(int space) {
 struct chance * getshm_chance() {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
   //attach it to a pointer; obtain info
-  struct game * shm_val = (struct game *) shmat(mem_id, 0, SHM_RDONLY);
+  struct chance * shm_chance = (struct chance *) shmat(mem_id, 0, SHM_RDONLY);
   struct chance * chance_card = malloc(sizeof(struct chance));
   int rand_card = rand() % 15;
-  chance_card = &(shm_val->chance_cards[rand_card]);
+  strcpy(chance_card->text, shm_chance[rand_card].text);
+  chance_card->money = shm_chance[rand_card].money;
+  chance_card->spaces = shm_chance[rand_card].spaces;
   //detach it
-  shmdt(shm_val);
+  shmdt(shm_chance);
   return chance_card;
   }
 
@@ -115,10 +117,22 @@ struct chance * getshm_chance() {
 void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
   //attach it to a pointer
-  struct game * shm_val = (struct game *) shmat(mem_id, 0, 0);
-  shm_val->spaces[space] = *updated;
+  struct spaces * shm_spaces = (struct spaces *) shmat(mem_id, 0, 0);
+  strcpy(shm_spaces[space].name, updated->name);
+  shm_spaces[space].chance = updated->chance;
+  shm_spaces[space].property = updated->property;
+  shm_spaces[space].change_money = updated->change_money;
+  shm_spaces[space].cost = updated->cost;
+  shm_spaces[space].owner = updated->owner;
+  shm_spaces[space].house_cost = updated->house_cost;
+  shm_spaces[space].houses_owned = updated->houses_owned;
+  shm_spaces[space].rent[0] = updated->rent[0];
+  shm_spaces[space].rent[1] = updated->rent[1];
+  shm_spaces[space].rent[2] = updated->rent[2];
+  shm_spaces[space].rent[3] = updated->rent[3];
+  shm_spaces[space].rent[4] = updated->rent[4];
   //detach it
-  shmdt(shm_val);
+  shmdt(shm_spaces);
   free(updated);
 }
 
