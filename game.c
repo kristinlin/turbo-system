@@ -2,9 +2,6 @@
 #include "mainfunctions.c"
 
 
-
-
-
 void newgame(int from_clients[4], int to_subservers[4]) {
 
   printf("[mainserver] okay.\n");
@@ -103,5 +100,6 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   // remove shared memory when game is over
   shmctl(spaces_id, IPC_RMID, NULL);
   shmctl(chances_id, IPC_RMID, NULL);
-  //  semctl(
+  semctl(semid, IPC_RMID, 0, NULL);
+  semctl(semid, IPC_RMID, 1, NULL);
 }

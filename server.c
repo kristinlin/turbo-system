@@ -12,8 +12,9 @@ static void sighandler(int signo) {
   shmctl(mem_id, IPC_RMID, NULL);
   mem_id = shmget(CHANCE_MEMKEY, 0, 0);
   shmctl(mem_id, IPC_RMID, NULL);
-
-
+  int semid = semget(SEMKEY, 0, 0);
+  semctl(semid, IPC_RMID, 0, NULL);
+  semctl(semid, IPC_RMID, 1, NULL);
   if (signo == SIGINT) {
     printf("THis was the error: %s\n", strerror(errno));
     remove(PIPE_NAME);
