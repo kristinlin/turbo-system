@@ -11,7 +11,7 @@
 #define SCREEN_w 1000
 #define SCREEN_H 1000
 
-#define SCREEN_SCALE .6
+#define SCREEN_SCALE 1
 #define SCREEN_NAME "Monopoly"
 
 //========================ATTRIBUTES======================================
@@ -106,14 +106,18 @@ void game_quit(void) {
 int * convert(int space) {
   //malloc
   int * coors = calloc(2, sizeof(int));
+  int margin = Game.screen.w * .125;
+  int w_scaled = Game.screen.w * .275;
+  int h_scaled = Game.screen.w * .292;
+  printf("scaled: %d\n", margin);
   if (space < 11) {
     coors[0] = 0;
   } else if (space > 19 && space < 31) {
     coors[0] = Game.screen.w - 100*SCREEN_SCALE;
   } else  if (space > 10 && space < 20) {
-    coors[0] = (Game.screen.w -165)/9 * (space%10 - 1) + 75;
+    coors[0] = (Game.screen.w - w_scaled)/9 * (space%10 - 1) + margin;
   } else {
-    coors[0] = (Game.screen.w -165)/9 * (9 - space%10) + 75;
+    coors[0] = (Game.screen.w - w_scaled)/9 * (9 - space%10) + margin;
   }
 
   if (space > 9 && space < 21) {
@@ -121,9 +125,9 @@ int * convert(int space) {
   } else if (space == 0 || space > 29) {
     coors[1] = Game.screen.w - 100*SCREEN_SCALE;
   } else if (space > 0 && space < 10) {
-    coors[1] = (Game.screen.h - 175)/9 * (9 - space%10) + 75;
+    coors[1] = (Game.screen.h - h_scaled)/9 * (9 - space%10) + margin;
   } else {
-    coors[1] = (Game.screen.h - 175)/9 * (space%10 - 1) + 75;
+    coors[1] = (Game.screen.h - h_scaled)/9 * (space%10 - 1) + margin;
   }
   return coors;
 }
