@@ -141,12 +141,14 @@ struct spaces * getshm_space(int space) {
 
 //get chance card -- REMEMBER TO FREE AFTER
 struct chance * getshm_chance() {
-  int mem_id = shmget(SPACE_MEMKEY, 0, 0);
+  int mem_id = shmget(CHANCE_MEMKEY, 0, 0);
 
   //attach it to a pointer; obtain info
   struct chance * shm_chance = (struct chance *) shmat(mem_id, 0, SHM_RDONLY);
-  struct chance * chance_card = malloc(sizeof(struct chance));
-  int rand_card = rand() % 15;
+  struct chance * chance_card = (struct chance *)malloc(sizeof(struct chance));
+  int rand_card = rand() % 14;
+  printf("THIS IS THE RAND INT: %d\n", rand_card);
+  printf("This is a check for chance_card: %s\n", shm_chance[rand_card].text);
   strcpy(chance_card->text, shm_chance[rand_card].text);
   chance_card->money = shm_chance[rand_card].money;
   chance_card->spaces = shm_chance[rand_card].spaces;

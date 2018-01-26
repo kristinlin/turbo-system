@@ -4,7 +4,8 @@
 
 int main() {
 
-
+  srand(getpid());
+  
   int player_num;
   int money = 0;
   int to_server;
@@ -50,8 +51,10 @@ int main() {
       printf("\n\nIT IS YOUR TURN. MAKE YOUR MOVE NOW.\n");
 
       // // rand int 1 - 12
-
-      int dice = rand() % 12 + 1;
+      printf("rand num: %d\n", rand() % 12 + 1);
+      printf("rand num: %d\n", rand() % 12);
+      printf("rand num: %d\n", rand() % 12);
+      int dice = (rand() % 12) + 1;
       printf("YOU JUST ROLLED THE DICE: %d\n", dice);
       // // sets turn's curr index correctly
       new_update->position[player_num] += dice;
