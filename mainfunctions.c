@@ -109,7 +109,6 @@ int * convert(int space) {
   int margin = Game.screen.w * .125;
   int w_scaled = Game.screen.w * .275;
   int h_scaled = Game.screen.w * .292;
-  printf("scaled: %d\n", margin);
   if (space < 11) {
     coors[0] = 0;
   } else if (space > 19 && space < 31) {
@@ -131,49 +130,3 @@ int * convert(int space) {
   }
   return coors;
 }
-
-/*
-int main(int argc, char* argv[]) {
-
-  Game.init();
-
-  //where you want to render the image in the window
-  SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
-  //pixel info of one element (monopoly board)
-  SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
-
-
-  //ISOLATE
-  SDL_Rect texr; texr.x = 40; texr.y = 670; texr.w = 100; texr.h = 100;
-  SDL_Texture* img = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
-  //ISOLATE
-
-  //sort of like events in Javascript
-  SDL_Event event;
-  while(Game.running) {
-    while(SDL_PollEvent(&event)) {
-      switch(event.type) {
-       // user exits
-      case SDL_QUIT: {
-       Game.running = SDL_FALSE;
-      } break;
-
-  //you can add stuff like clicking, keyboard events, etc
-      }
-    }
-
-    //render the image
-    SDL_RenderClear(Game.screen.renderer);
-    rect.x = 0, rect.y = 0;
-    SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
-    SDL_RenderCopy(Game.screen.renderer, img, NULL, &texr);
-    SDL_RenderPresent(Game.screen.renderer);
-
-  }
-
-  //housekeeping like freeing memory
-  SDL_DestroyTexture(texture1);
-  Game.quit();
-  return 0;
-}
-*/

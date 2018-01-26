@@ -1,5 +1,5 @@
 int error_check(int err) {
-  printf("%d\n", err);
+  //  printf("%d\n", err);
   if (err < 0) {
     printf("This was the error: %s\n", strerror(errno));
     exit(1);
@@ -147,8 +147,6 @@ struct chance * getshm_chance() {
   struct chance * shm_chance = (struct chance *) shmat(mem_id, 0, SHM_RDONLY);
   struct chance * chance_card = (struct chance *)malloc(sizeof(struct chance));
   int rand_card = rand() % 14;
-  printf("THIS IS THE RAND INT: %d\n", rand_card);
-  printf("This is a check for chance_card: %s\n", shm_chance[rand_card].text);
   strcpy(chance_card->text, shm_chance[rand_card].text);
   chance_card->money = shm_chance[rand_card].money;
   chance_card->spaces = shm_chance[rand_card].spaces;
@@ -162,8 +160,6 @@ struct chance * getshm_chance() {
 //set a space in shm; make sure to allocate space before passing updated;
 void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
-
-  printf("THIS IS updated property: %d\n", updated->property);
 
   //attach it to a pointer
   struct spaces * shm_spaces = (struct spaces *) shmat(mem_id, 0, 0);
