@@ -801,7 +801,7 @@ void init_chance() {
   strcpy(starter[8].text, "Take a trip to Reading Railroad");
   starter[8].money = 0;
   starter[8].spaces = 5;
-  strcpy(starter[9].text,"Take a walk on the boardwalkto boardwalk.");
+  strcpy(starter[9].text,"Take a walk on the boardwalk.");
   starter[9].money = 0;
   starter[9].spaces = 39;
   strcpy(starter[10].text,"You have been elected Chairman of the Board - pay each player $50.");
@@ -813,7 +813,7 @@ void init_chance() {
   strcpy(starter[12].text,"You have won a crossword competition.");
   starter[12].money = 0;
   starter[12].spaces = 0;
-  strcpy(starter[13].text,"YOU JUST WON WON THE LOTTERY - AND $1000!");
+  strcpy(starter[13].text,"YOU JUST WON THE LOTTERY - AND $1000!");
   starter[13].money = 1000;
   starter[13].spaces = 0;
 
