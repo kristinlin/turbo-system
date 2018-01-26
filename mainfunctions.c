@@ -5,15 +5,13 @@
   Lazy Foo Productions (http://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
  */
 
-#include <stdio.h>
 #include <SDL2/SDL.h>
-
-//#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 #define SCREEN_w 1000
 #define SCREEN_H 1000
 
-#define SCREEN_SCALE 1
+#define SCREEN_SCALE .6
 #define SCREEN_NAME "Monopoly"
 
 //========================ATTRIBUTES======================================
@@ -67,11 +65,11 @@ void game_init(void) {
   unsigned int w = Game.screen.w;
   unsigned int h = Game.screen.h;
   const char* name = Game.screen.name;
+  Uint32 flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_MINIMIZED;
   Game.screen.window = SDL_CreateWindow(name,
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
-					w, h, 0
-					);
+					w, h, flags);
   //create renderer to load image in created window
   Game.screen.renderer = SDL_CreateRenderer(Game.screen.window, -1,
 					    SDL_RENDERER_ACCELERATED |
@@ -103,6 +101,32 @@ void game_quit(void) {
 
 
 //==========================MAIN====================================
+
+//free after
+int * convert(int space) {
+  //malloc
+  int * coors = calloc(2, sizeof(int));
+  if (space < 11) {
+    coors[0] = 0;
+  } else if (space > 19 && space < 31) {
+    coors[0] = Game.screen.w - 100*SCREEN_SCALE;
+  } else  if (space > 10 && space < 20) {
+    coors[0] = (Game.screen.w -165)/9 * (space%10 - 1) + 75;
+  } else {
+    coors[0] = (Game.screen.w -165)/9 * (9 - space%10) + 75;
+  }
+
+  if (space > 9 && space < 21) {
+    coors[1] = 0;
+  } else if (space == 0 || space > 29) {
+    coors[1] = Game.screen.w - 100*SCREEN_SCALE;
+  } else if (space > 0 && space < 10) {
+    coors[1] = (Game.screen.h - 175)/9 * (9 - space%10) + 75;
+  } else {
+    coors[1] = (Game.screen.h - 175)/9 * (space%10 - 1) + 75;
+  }
+  return coors;
+}
 
 /*
 int main(int argc, char* argv[]) {

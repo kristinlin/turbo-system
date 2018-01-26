@@ -1,7 +1,7 @@
 all: server client
 	gcc -c pipe_networking.c
 server: server.c
-	gcc -I/usr/include/SDL/ -g server.c -o server -L/usr/lib -lSDL2
+	gcc -I/usr/include/SDL/ -g server.c -o server -L/usr/lib -lSDL2 -lSDL2_image
 client: client.c
 	gcc -g -o client client.c
 sdl: main.c
