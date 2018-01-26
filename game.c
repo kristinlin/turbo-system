@@ -78,7 +78,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   int deaths = 0;
   int player_status[4] = {1, 1, 1, 1};
   
-  while(Game.running && deaths < 4) {
+  while(Game.running && deaths < 3) {
 
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
@@ -157,9 +157,13 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     }
   }
 
+  int winner;
+  while (!player_status[winner++]);
+  printf("PLAYER %d WAS THE OFFICIAL WINNER.\n", winner);
+
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //CLEAN UP
-
+  
   //housekeeping like freeing memory
   SDL_DestroyTexture(texture1);
   SDL_DestroyTexture(zero);
@@ -169,11 +173,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   Game.quit();
 
-  //free all memory used
-  free(start_update);
-  free(start_turn);
-  
-  // remove shared memory when game is over
+    // remove shared memory when game is over
   shmctl(spaces_id, IPC_RMID, NULL);
   shmctl(chances_id, IPC_RMID, NULL);
   semctl(semid, IPC_RMID, 0, NULL);
