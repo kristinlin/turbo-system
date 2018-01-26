@@ -43,13 +43,14 @@ int main() {
 
     // update money
     money += new_update->gains[player_num];
-    printf("This is your account balance [%d]\n", money);
+    printf("This is your account balance [$%d]\n", money);
 
     // if it's your turn;
     if (new_update->curr_player == player_num) {
 
       printf("\n==================================================\n");
       printf("\nIT IS YOUR TURN. MAKE YOUR MOVE NOW.\n");
+      printf("This is your account balance [$%d]\n", money);
 
       // // rand int 1 - 12
       int dice = (rand() % 12) + 1;
@@ -59,9 +60,7 @@ int main() {
       new_turn->curr_index = new_update->position[player_num];
       if (new_turn->curr_index > 39) {
 	       money += 200;
-         new_update->gains[player_num] = money;
 	       new_turn->curr_index = new_turn->curr_index % 40;
-         new_update->position[player_num] = new_turn->curr_index;
       }
 
       // get struct space in shm and manage sem
@@ -81,55 +80,58 @@ int main() {
         if (curr_space->change_money > 0) {
           printf("YOU JUST EARNED $%d FROM THE COMMUNITY CHEST!\n", curr_space->change_money);
           money += curr_space->change_money;
-          new_update->gains[player_num] = money;
         }
         // draw a chance card
         struct chance * curr_chance = getshm_chance();
         printf("CHANCE CARD: YOU JUST DREW \"%s\".\n", curr_chance->text);
         // update spot on board
-        new_turn->curr_index += curr_chance->spaces;
-        new_update->position[player_num] += curr_chance->spaces;
-        if (new_turn->curr_index > 39) {
+        if (curr_chance->spaces > 0) {
+          new_turn->curr_index = curr_chance->spaces;
+        } else {
+          new_turn->curr_index -= curr_chance->spaces;
+        }
+        if (new_turn->curr_index > 39 || new_turn->curr_index < 0) {
   	       money += 200;
-           new_update->gains[player_num] = money;
   	       new_turn->curr_index = new_turn->curr_index % 40;
-           new_update->position[player_num] = new_turn->curr_index;
         }
         // paying each player $50 in special case
         if (strcmp(curr_chance->text, "You have been elected Chairman of the Board - pay each player $50.") == 0) {
-          int all_players;
-          for (all_players = 0; all_players < 4; all_players++) {
-            if (all_players != player_num) {
-              new_update->gains[all_players] += 50;
+          // update money
+          if (money + curr_chance->money > 0) {
+            money += curr_chance->money;
+            int all_players;
+            for (all_players = 0; all_players < 4; all_players++) {
+              if (all_players != player_num) {
+                new_turn->dues[all_players] += 50;
+              }
             }
           }
-        }
-        // update money
-        if (money + curr_chance->money >= 0) {
-          money += curr_chance->money;
-          new_update->gains[player_num] = money;
-        } else {
-          printf("YOU ARE NOW BANKRUPT AND OUT OF THE GAME. GOODBYE.\n");
-          new_turn->dead = 1;
+          else {
+            printf("YOU ARE NOW BANKRUPT AND OUT OF THE GAME. GOODBYE.\n");
+            new_turn->dead = 1;
+          }
         }
         free(curr_chance);
       }
       // no chance card, land on space w/ someone else's property
       else if (curr_space->property == 2) {
-        int money_owed = (curr_space->rent)[curr_space->houses_owned];
-        printf("YOU JUST LANDED ON PLAYER %d\'S PROPERTY. PAY %d.\n", curr_space->owner, money_owed);
-        if (money - money_owed >= 0) {
-          //pay up (subtract money from your bank acct)
-          money -= money_owed;
-          new_update->gains[player_num] = money;
-          // add $$ to other person's bank acct
-          new_turn->dues[curr_space->owner] = money_owed;
+        if (curr_space->owner != player_num) {
+          int money_owed = (curr_space->rent)[curr_space->houses_owned];
+          printf("YOU JUST LANDED ON PLAYER %d\'S PROPERTY. PAY %d.\n", curr_space->owner, money_owed);
+          if (money - money_owed >= 0) {
+            //pay up (subtract money from your bank acct)
+            money -= money_owed;
+            // add $$ to other person's bank acct
+            new_turn->dues[curr_space->owner] = money_owed;
+          }
+          else {
+            printf("YOU ARE NOW BANKRUPT AND OUT OF THE GAME. GOODBYE.\n");
+            new_turn->dead = 1;
+          }
         }
         else {
-          printf("YOU ARE NOW BANKRUPT AND OUT OF THE GAME. GOODBYE.\n");
-          new_turn->dead = 1;
+          printf("YOU JUST LANDED ON YOUR OWN PROPERTY. ENJOY YOUR STAY!\n");
         }
-
       }
       // no chance card, land on space w/ property you can buy
       else if (curr_space->property == 1) {
@@ -143,9 +145,8 @@ int main() {
             if (strcmp(buffer, "YES") == 0 || strcmp(buffer, "yes") == 0) {
               //pay up (subtract money from your bank acct)
               money -= curr_space->cost;
-              new_update->gains[player_num] = money;
               // set new owner
-	      curr_space->property = 2;
+	            curr_space->property = 2;
               curr_space->owner = player_num;
               //buying houses
               printf("WOULD YOU LIKE TO BUY ANY HOUSES? YOU CAN BUY UP TO FOUR HOUSES, WITH EACH HOUSE COSTING $%d. USERS WILL PAY YOU AN ADDITIONAL RENT OF $%d for 1 HOUSE, $%d for 2 HOUSES, $%d for 3 HOUSES, $%d for 4 HOUSES, INCLUDING THE ORIGINAL RENT OF %d. TYPE IN THE NUMBER OF HOUSES YOU WOULD LIKE TO BUY. ZERO IS AN ACCEPTABLE ANSWER. CHOOSE WISELY BECAUSE YOU CAN'T GO BACK. (dun dun dun) \n", curr_space->house_cost, curr_space->rent[1], curr_space->rent[2], curr_space->rent[3], curr_space->rent[4], curr_space->rent[0]);
@@ -157,9 +158,8 @@ int main() {
               }
               else {
                 money -= curr_space->house_cost * atoi(buffer);
-                new_update->gains[player_num] = money;
                 printf("YOU NOW OWN %s HOUSES ON THIS PROPERTY.\n", buffer);
-		curr_space->houses_owned = atoi(buffer);
+		            curr_space->houses_owned = atoi(buffer);
               }
             }
           }
@@ -175,7 +175,6 @@ int main() {
           }
           else {
             money += curr_space->change_money;
-            new_update->gains[player_num] = money;
           }
         }
 
@@ -184,17 +183,18 @@ int main() {
 
           // check to see if anyone owes
           if (curr_space->owner != -1) {
-            printf("THIS SPACE IS OWNED BY PLAYER %d. PAY RENT OF %d.\n", curr_space->owner, curr_space->rent[0]);
-            if (money - curr_space->rent[0] < 0) {
-              printf("YOU ARE NOW BANKRUPT. GOODBYE.\n");
-              new_turn->dead = 1;
-            }
-            else {
-              // change money in player bank acct
-              money -= curr_space->rent[0];
-              new_update->gains[player_num] = money;
-              // add money to owner account
-              new_turn->dues[curr_space->owner] = curr_space->rent[0];
+            if (curr_space->owner != player_num) {
+              printf("THIS SPACE IS OWNED BY PLAYER %d. PAY RENT OF %d.\n", curr_space->owner, curr_space->rent[0]);
+              if (money - curr_space->rent[0] < 0) {
+                printf("YOU ARE NOW BANKRUPT. GOODBYE.\n");
+                new_turn->dead = 1;
+              }
+              else {
+                // change money in player bank acct
+                money -= curr_space->rent[0];
+                // add money to owner account
+                new_turn->dues[curr_space->owner] = curr_space->rent[0];
+              }
             }
           }
 
@@ -210,9 +210,8 @@ int main() {
               if (strcmp(buffer, "YES") == 0 || strcmp(buffer, "yes") == 0) {
                 //pay up (subtract money from your bank acct)
                 money -= curr_space->cost;
-                new_update->gains[player_num] = money;
                 // set new owner
-		curr_space->property = 2;
+		            curr_space->property = 2;
                 curr_space->owner = player_num;
               }
             }
@@ -228,7 +227,6 @@ int main() {
           else {
             // change money in player bank acct
             money += curr_space->change_money;
-            new_update->gains[player_num] = money;
           }
         }
       }
