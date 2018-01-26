@@ -30,6 +30,15 @@ int main() {
   printf("====================================================\n");
   printf("WELCOME TO MONOPOLY.\n");
   printf("You are officially player [%d]\n", player_num);
+  if (player_num == 0) {
+    printf("YOU ARE THE HAT.\n");
+  } else if (player_num == 1) {
+    printf("YOU ARE THE CAR.\n");
+  } else if (player_num == 2) {
+    printf("YOU ARE AN IRON.\n");
+  } else if (player_num == 3) {
+    printf("YOU ARE THE WHEELBARROW.\n");
+  }
 
 
   if (buff != buff_rec) {
