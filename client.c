@@ -143,6 +143,7 @@ int main() {
               money -= curr_space->cost;
               new_update->gains[player_num] = money;
               // set new owner
+	      curr_space->property = 2;
               curr_space->owner = player_num;
               //buying houses
               printf("WOULD YOU LIKE TO BUY ANY HOUSES? YOU CAN BUY UP TO FOUR HOUSES, WITH EACH HOUSE COSTING $%d. USERS WILL PAY YOU AN ADDITIONAL RENT OF $%d for 1 HOUSE, $%d for 2 HOUSES, $%d for 3 HOUSES, $%d for 4 HOUSES, INCLUDING THE ORIGINAL RENT OF %d. TYPE IN THE NUMBER OF HOUSES YOU WOULD LIKE TO BUY. ZERO IS AN ACCEPTABLE ANSWER. CHOOSE WISELY BECAUSE YOU CAN'T GO BACK. (dun dun dun) \n", curr_space->house_cost, curr_space->rent[1], curr_space->rent[2], curr_space->rent[3], curr_space->rent[4], curr_space->rent[0]);
@@ -156,6 +157,7 @@ int main() {
                 money -= curr_space->house_cost * atoi(buffer);
                 new_update->gains[player_num] = money;
                 printf("YOU NOW OWN %s HOUSES ON THIS PROPERTY.\n", buffer);
+		curr_space->houses_owned = atoi(buffer);
               }
             }
           }
@@ -208,6 +210,7 @@ int main() {
                 money -= curr_space->cost;
                 new_update->gains[player_num] = money;
                 // set new owner
+		curr_space->property = 2;
                 curr_space->owner = player_num;
               }
             }
@@ -228,13 +231,18 @@ int main() {
         }
       }
 
+      gate(SPACES, ENTER);
+      printf("TIME TO SET THE SHM\n");
+      printf("THis is property: %d\n", curr_space->property);
+      setshm_space(new_turn->curr_index, curr_space);
+      gate(SPACES, LEAVE);
       write(to_server, new_turn, sizeof(struct turn));
 
       // if bankrupt free then exit
       // free all
 	    //      free(new_turn);
       free(new_update);
-      free(curr_space);
+      //      free(curr_space);
     } else {
       printf("\nIt is currently player[%d]'s turn\n", new_update->curr_player);
     }

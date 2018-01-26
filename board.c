@@ -161,6 +161,8 @@ struct chance * getshm_chance() {
 void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
 
+  printf("THIS IS updated property: %d\n", updated->property);
+  
   //attach it to a pointer
   struct spaces * shm_spaces = (struct spaces *) shmat(mem_id, 0, 0);
   strcpy(shm_spaces[space].name, updated->name);
