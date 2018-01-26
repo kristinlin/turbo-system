@@ -48,12 +48,10 @@ int main() {
     // if it's your turn;
     if (new_update->curr_player == player_num) {
 
-      printf("\n\nIT IS YOUR TURN. MAKE YOUR MOVE NOW.\n");
+      printf("\n==================================================\n");
+      printf("\nIT IS YOUR TURN. MAKE YOUR MOVE NOW.\n");
 
       // // rand int 1 - 12
-      printf("rand num: %d\n", rand() % 12 + 1);
-      printf("rand num: %d\n", rand() % 12);
-      printf("rand num: %d\n", rand() % 12);
       int dice = (rand() % 12) + 1;
       printf("YOU JUST ROLLED THE DICE: %d\n", dice);
       // // sets turn's curr index correctly
@@ -235,10 +233,11 @@ int main() {
       }
 
       gate(SPACES, ENTER);
-      printf("TIME TO SET THE SHM\n");
-      printf("THis is property: %d\n", curr_space->property);
       setshm_space(new_turn->curr_index, curr_space);
       gate(SPACES, LEAVE);
+
+      printf("TYPE ANYTHING TO END TURN\n.");
+      fgets(buffer, BUFFER_SIZE, stdin);
       write(to_server, new_turn, sizeof(struct turn));
 
       // if bankrupt free then exit
