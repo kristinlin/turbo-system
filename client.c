@@ -52,18 +52,18 @@ int main() {
 
     // update money
     money += new_update->gains[player_num];
-    printf("This is your account balance [$%d]\n", money);
+    printf("\nAccount balance: [$%d]\n", money);
 
     // if it's your turn;
     if (new_update->curr_player == player_num) {
 
       printf("\n==================================================\n");
       printf("\nIT IS YOUR TURN. MAKE YOUR MOVE NOW.\n");
-      printf("This is your account balance [$%d]\n", money);
+      printf("\n\nAccount balance: [$%d]\n\n", money);
 
       // // rand int 1 - 12
       int dice = (rand() % 12) + 1;
-      printf("YOU JUST ROLLED THE DICE: %d\n", dice);
+      printf("DICE ROLLED: %d\n", dice);
       // // sets turn's curr index correctly
       new_update->position[player_num] += dice;
       new_turn->curr_index = new_update->position[player_num];

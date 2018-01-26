@@ -94,12 +94,13 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     printf("This is what every player gets: %d\n", start_update->gains[0]);
     for (i = 0; i < 4; i++) {
       if (player_status[i]) {
+        printf("Sending updates to clients\n");
 	       write(to_subservers[i], start_update, sizeof(struct update));
       }
     }
 
     //change the image
-
+    prinf("Changing image now")
     int * coors;
 
     coors = convert(start_update->position[0]);
@@ -173,7 +174,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   Game.quit();
 
-    // remove shared memory when game is over
+  // remove shared memory when game is over
   shmctl(spaces_id, IPC_RMID, NULL);
   shmctl(chances_id, IPC_RMID, NULL);
   semctl(semid, IPC_RMID, 0, NULL);
