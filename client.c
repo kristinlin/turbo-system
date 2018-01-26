@@ -137,6 +137,7 @@ int main() {
           else {
             printf("WOULD YOU LIKE TO BUY THIS PROPERTY? THE INITIAL COST IS %d. YOU WILL EARN $%d EVERYTIME SOMEONE LANDS ON THIS SPACE. YOU CURRENTLY HAVE $%d. TYPE YES/NO.\n", curr_space->cost, curr_space->rent[0], money);
             fgets(buffer, BUFFER_SIZE, stdin);
+            buffer[strlen(buffer) - 1] = 0;
             if (strcmp(buffer, "YES") == 0 || strcmp(buffer, "yes") == 0) {
               //pay up (subtract money from your bank acct)
               money -= curr_space->cost;
@@ -146,6 +147,7 @@ int main() {
               //buying houses
               printf("WOULD YOU LIKE TO BUY ANY HOUSES? YOU CAN BUY UP TO FOUR HOUSES, WITH EACH HOUSE COSTING $%d. USERS WILL PAY YOU AN ADDITIONAL RENT OF $%d for 1 HOUSE, $%d for 2 HOUSES, $%d for 3 HOUSES, $%d for 4 HOUSES, INCLUDING THE ORIGINAL RENT OF %d. TYPE IN THE NUMBER OF HOUSES YOU WOULD LIKE TO BUY. ZERO IS AN ACCEPTABLE ANSWER. CHOOSE WISELY BECAUSE YOU CAN'T GO BACK. (dun dun dun) \n", curr_space->house_cost, curr_space->rent[1], curr_space->rent[2], curr_space->rent[3], curr_space->rent[4], curr_space->rent[0]);
               fgets(buffer, BUFFER_SIZE, stdin);
+              buffer[strlen(buffer) - 1] = 0;
               //pay up (subtract money from your bank acct)
               if (money - (curr_space->house_cost) * atoi(buffer) < 0) {
                 printf("UNFORTUNATELY YOU DID NOT CHOOSELY WISELY AND WILL NOT BE ABLE TO BUY ANY HOUSES ON THIS PROPERTY FOR THIS TURN. \n");
@@ -200,6 +202,7 @@ int main() {
             else {
               printf("WOULD YOU LIKE TO BUY THIS PROPERTY? THE INITIAL COST IS %d. YOU WILL EARN $%d EVERYTIME SOMEONE LANDS ON THIS SPACE. TYPE YES/NO.\n", curr_space->cost, curr_space->rent[0]);
               fgets(buffer, BUFFER_SIZE, stdin);
+              buffer[strlen(buffer) - 1] = 0;
               if (strcmp(buffer, "YES") == 0 || strcmp(buffer, "yes") == 0) {
                 //pay up (subtract money from your bank acct)
                 money -= curr_space->cost;
