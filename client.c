@@ -94,11 +94,17 @@ int main() {
   	       money += 200;
   	       new_turn->curr_index = new_turn->curr_index % 40;
         }
+        if (curr_chance->money != 0) {
+          money += curr_chance->money;
+          if (money < 0) {
+            printf("YOU ARE NOW BANKRUPT. GOODBYE.\n");
+            new_turn->dead = 1;
+          }
+        }
         // paying each player $50 in special case
         if (strcmp(curr_chance->text, "You have been elected Chairman of the Board - pay each player $50.") == 0) {
           // update money
           if (money + curr_chance->money > 0) {
-            money += curr_chance->money;
             int all_players;
             for (all_players = 0; all_players < 4; all_players++) {
               if (all_players != player_num) {
@@ -139,7 +145,7 @@ int main() {
             printf("UNFORTUNATELY YOU DON'T HAVE ENOUGH MONEY TO PURCHASE THIS PROPERTY. TRY AGAIN LATER. \n");
           }
           else {
-            printf("WOULD YOU LIKE TO BUY THIS PROPERTY? THE INITIAL COST IS %d. YOU WILL EARN $%d EVERYTIME SOMEONE LANDS ON THIS SPACE. YOU CURRENTLY HAVE $%d. TYPE YES/NO.\n", curr_space->cost, curr_space->rent[0], money);
+            printf("WOULD YOU LIKE TO BUY THIS PROPERTY? THE INITIAL COST IS %d. YOU WILL EARN $%d EVERYTIME SOMEONE LANDS ON THIS SPACE. YOU CURRENTLY HAVE $%d. TYPE YES AND ANYTHING OTHER THAN \'YES\' FOR NO.\n", curr_space->cost, curr_space->rent[0], money);
             fgets(buffer, BUFFER_SIZE, stdin);
             buffer[strlen(buffer) - 1] = 0;
             if (strcmp(buffer, "YES") == 0 || strcmp(buffer, "yes") == 0) {
@@ -204,7 +210,7 @@ int main() {
               printf("UNFORTUNATELY YOU DO NOT HAVE ENOUGH TO BUY THIS PROPERTY RIGHT NOW. TRY AGAIN LATER.\n");
             }
             else {
-              printf("WOULD YOU LIKE TO BUY THIS PROPERTY? THE INITIAL COST IS %d. YOU WILL EARN $%d EVERYTIME SOMEONE LANDS ON THIS SPACE. TYPE YES/NO.\n", curr_space->cost, curr_space->rent[0]);
+              printf("WOULD YOU LIKE TO BUY THIS PROPERTY? THE INITIAL COST IS %d. YOU WILL EARN $%d EVERYTIME SOMEONE LANDS ON THIS SPACE. TYPE YES AND ANYTHING OTHER THAN \'YES\' FOR NO.\n", curr_space->cost, curr_space->rent[0]);
               fgets(buffer, BUFFER_SIZE, stdin);
               buffer[strlen(buffer) - 1] = 0;
               if (strcmp(buffer, "YES") == 0 || strcmp(buffer, "yes") == 0) {
@@ -235,7 +241,7 @@ int main() {
       setshm_space(new_turn->curr_index, curr_space);
       gate(SPACES, LEAVE);
 
-      printf("TYPE ANYTHING TO END TURN\n.");
+      printf("TYPE ANYTHING TO END TURN.\n");
       fgets(buffer, BUFFER_SIZE, stdin);
       write(to_server, new_turn, sizeof(struct turn));
 
