@@ -1,14 +1,17 @@
-# :dollar: **Monopoly for Ages 6 and Under and 85 and Older** :dollar:
-Brian Leung, Kristin Lin, Sabrina Wen | Period 10
+# :dollar: **Monopoly: For Ages 6 and Under and 85 and Over** :dollar:
+Systems Project 02: The Final Frontier
+Brian Leung, Kristin Lin, Sabrina Wen pd10
 
-#### Description ####
-Wotcher Mr. DW (and friends)! Welcome to *Monopoly for Ages 6 and Under and 85 and Older*. The goal of the game is to buy as much property as possible, while still gaining a profit and not being bankrupt. We have also decided to use the British version of Monopoly for aesthetic purposes.
+#### Broad Description ####
+Wotcher Mr. DW (and friends)! Welcome to a special edition of *Monopoly: For Ages 6 and Under and 85 and Over*! The objective of this game is similar to regular Monopoly: you will work against 3 other players to buy property (or not!), and compete to see who can survive the longest in a ruthless capitalist world. We have also decided to set this game in the UK (for aesthetic reasons).
 
-#### Required Libraries (and how to install!) ####
+#### Libraries Required ####
 1. libsdl2-dev
 ..* `sudo apt-get install libsdl2-dev`
-2. libsdl2-2.0-0
+2. libsdl-image1.2
 ..* `sudo apt-get install libsdl-image1.2-dev`
+3. libsdl2-2.0
+..*`sudo apt-get install libsdl2-2.0`
 
 #### How to Play: ####
 1. Clone this repository and cd into it (turbo-system).
