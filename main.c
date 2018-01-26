@@ -81,11 +81,7 @@ void game_init(void) {
   //game is now running
   Game.running = SDL_TRUE;
   //load image
-  Game.screen.loaded_surface = SDL_LoadBMP("images/hello_world.bmp");
-
-  //Some other stuff  img = 
 }
-
 //------------------------------------------------------
 // QUIT GAME 
 // free memory used
@@ -112,10 +108,10 @@ int main(int argc, char* argv[]) {
   Game.init();
 
   //where you want to render the image in the window
-  SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
-  //pixel info of one element (monopoly board)
-  SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
+  SDL_Rect mainRect = {0, 0, Game.screen.w, Game.screen.h};
+  SDL_Texture* mainTexture = IMG_LoadTexture(Game.screen.renderer,"images/hello_world.bmp");
 
+  //pixel info of one element (monopoly board)
 
   //ISOLATE
   SDL_Rect texr; texr.x = 40; texr.y = 670; texr.w = 100; texr.h = 100;
@@ -138,15 +134,15 @@ int main(int argc, char* argv[]) {
 
     //render the image
     SDL_RenderClear(Game.screen.renderer);
-    rect.x = 0, rect.y = 0;
-    SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
+    mainRect.x = 0, mainRect.y = 0;
+    SDL_RenderCopy(Game.screen.renderer, mainTexture, NULL, &mainRect);
     SDL_RenderCopy(Game.screen.renderer, img, NULL, &texr);
     SDL_RenderPresent(Game.screen.renderer);
 
   }
 
   //housekeeping like freeing memory
-  SDL_DestroyTexture(texture1);
+  SDL_DestroyTexture(mainTexture);
   Game.quit();
   return 0;
 }
