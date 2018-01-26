@@ -1,10 +1,9 @@
-# Systems Project 02: The Final Frontier #
-Brian Leung, Kristin Lin, Sabrina Wen
-
 # :dollar: Monopoly :dollar:
+Systems Project 02: The Final Frontier
+Brian Leung, Kristin Lin, Sabrina Wen pd10
 
-#### HOW TO COMPILE ####
-Make stuff?
+#### BROAD DESCRIPTION ####
+
 
 #### HOW TO USE ####
 Instructions here
