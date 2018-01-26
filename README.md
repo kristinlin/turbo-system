@@ -5,7 +5,7 @@ Brian Leung, Kristin Lin, Sabrina Wen | Pd. 10
 #### Broad Description ####
 Wotcher Mr. DW (and friends)! Welcome to a special edition of *Monopoly: For Ages 6 and Under and 85 and Over*! The objective of this game is similar to regular Monopoly: you will work against 3 other players to buy property (or not!), and compete to see who can survive the longest in a ruthless capitalist world. We have also decided to set this game in the UK (for aesthetic reasons).
 
-#### Libraries Required (and how to install them!)####
+#### Libraries Required (and how to install them!) ####
 1. libsdl2-dev `sudo apt-get install libsdl2-dev`
 
 2. libsdl-image1.2 `sudo apt-get install libsdl-image1.2-dev`
