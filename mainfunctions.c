@@ -11,7 +11,7 @@
 #define SCREEN_w 1000
 #define SCREEN_H 1000
 
-#define SCREEN_SCALE 1
+#define SCREEN_SCALE .6
 #define SCREEN_NAME "Monopoly"
 
 //========================ATTRIBUTES======================================

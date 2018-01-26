@@ -228,9 +228,11 @@ int main() {
         }
       }
 
+      write(to_server, new_turn, sizeof(struct turn));
+
       // if bankrupt free then exit
       // free all
-      free(new_turn);
+	    //      free(new_turn);
       free(new_update);
       free(curr_space);
     } else {

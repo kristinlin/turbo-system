@@ -101,20 +101,20 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     //change the image
 
     int * coors;
-    coors = convert(19);
-    //    coors = convert(start_update->position[0]);
+    //    coors = convert(19);
+    coors = convert(start_update->position[0]);
     texr0.x = coors[0]; texr0.y = coors[1];
     free(coors);
-    coors = convert(21);
-    //    coors = convert(start_update->position[1]);
+    //coors = convert(21);
+    coors = convert(start_update->position[1]);
     texr1.x = coors[0]; texr1.y = coors[1];
     free(coors);
-    coors = convert(12);
-    //    coors = convert(start_update->position[2]);
+    //coors = convert(12);
+    coors = convert(start_update->position[2]);
     texr2.x = coors[0]; texr2.y = coors[1];
     free(coors);
-    coors = convert(7);
-    //    coors = convert(start_update->position[3]);
+    //coors = convert(7);
+    coors = convert(start_update->position[3]);
     texr3.x = coors[0]; texr3.y = coors[1];
     free(coors);
     
@@ -150,7 +150,11 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     }	 
     
     //next player
-    start_update->curr_player++;
+    if (start_update->curr_player == 3) {
+      start_update->curr_player = 0;
+    } else {
+      start_update->curr_player++;
+    }
   }
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
