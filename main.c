@@ -6,8 +6,7 @@
  */
 
 #include <stdio.h>
-//#include <stdlib.h>
-//#define SDL_MAIN_HANDLED
+
 #include <SDL2/SDL.h>
 
 #include <SDL2/SDL_image.h>
@@ -110,7 +109,7 @@ int main(int argc, char* argv[]) {
   //where you want to render the image in the window
   SDL_Rect mainRect = {0, 0, Game.screen.w, Game.screen.h};
   SDL_Texture* mainTexture = IMG_LoadTexture(Game.screen.renderer,"images/hello_world.bmp");
-
+  SDL_Rect texl; texl.x = 200; texl.y = 200
   //pixel info of one element (monopoly board)
 
   //ISOLATE

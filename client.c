@@ -30,6 +30,7 @@ int main() {
   printf("====================================================\n");
   printf("WELCOME TO MONOPOLY.\n");
   printf("You are officially player [%d]\n", player_num);
+  //Notifying player of their character
   if (player_num == 0) {
     printf("YOU ARE THE HAT.\n");
   } else if (player_num == 1) {
@@ -251,6 +252,7 @@ int main() {
       gate(SPACES, LEAVE);
 
       printf("TYPE ANYTHING TO END TURN.\n");
+      //No gui bc fgets :(
       fgets(buffer, BUFFER_SIZE, stdin);
       write(to_server, new_turn, sizeof(struct turn));
 

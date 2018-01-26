@@ -78,8 +78,6 @@ void game_init(void) {
   Game.running = SDL_TRUE;
   //load image
   Game.screen.loaded_surface = SDL_LoadBMP("images/hello_world.bmp");
-
-  //Some other stuff  img = 
 }
 
 //------------------------------------------------------
@@ -100,9 +98,53 @@ void game_quit(void) {
 }
 
 
-//==========================MAIN====================================
+/*
+GAME SPACES
+0: GO
+1: Vine Street
+2: Community Chest
+3: Coventry Street
+4: INCOME TAX
+5: Marleybone Station
+6: Leicester Square
+7: Chance
+8: Bow Street
+9: Whitechapel Road
+10: Just Visiting Jail
+11: The Angel Islington
+12: The Electric Company
+13: Trafalgar Square
+14: Northumrl'd Avenue
+15: Fenchurch Station
+16: M'Borough Street
+17: Community Chest (2)
+18: Fleet Street
+19: Old Kent Road
+20: Free Parking
+21: Whitehall
+22: Chance
+23: Pentonville Road
+24: Pall Mall
+25: Kings Cross Station
+26: Bond Street
+27: Strand
+28: Water Works
+29: Regent Street
+30: Go to Jail
+31: Eliston Road
+32: Piccadilly
+33: Community Chest (3)
+34: Oxford Street
+35: Liverpool St Station
+36: Chance
+37: Park Lane
+38: Super Tax
+39: Mayfair
+*/
 
-//free after
+//Convert space number to coordinates on board for placing the texture
+//free mem after
+
 int * convert(int space) {
   //malloc
   int * coors = calloc(2, sizeof(int));

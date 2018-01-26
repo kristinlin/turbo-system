@@ -1,3 +1,4 @@
+//For debug purposes
 int error_check(int err) {
   //  printf("%d\n", err);
   if (err < 0) {
@@ -187,6 +188,7 @@ void setshm_space( int space, struct spaces * updated ) {
 //====================================================================
 // INIT THE SHM WITH THE INIT BOARD
 
+//PLEASE NOTE THIS IS LONDON STYLE MONOPOLY
 
 //set the shm as the initial board; clear of everything for new game
 void init_spaces() {
@@ -196,7 +198,6 @@ void init_spaces() {
   struct spaces * starter = (struct spaces *) shmat(mem_id, 0, 0);
 
   strcpy(starter[0].name, "GO");
-  //  printf("This is the first space. %s\n", starter[0].name);
   starter[0].chance = 0;
   starter[0].property = 0;
   starter[0].change_money = 0;
@@ -239,6 +240,7 @@ void init_spaces() {
   starter[2].owner = -1;
   starter[2].houses_owned = 0;
   // spaces: Mediterranean Avenue
+
   strcpy(starter[3].name,"Coventry Street");
   starter[3].chance = 0;
   starter[3].property = 1;
@@ -253,6 +255,7 @@ void init_spaces() {
   starter[3].owner = -1;
   starter[3].houses_owned = 0;
   // Income tax, will simplify to -200
+
   strcpy(starter[4].name,"Income Tax");
   starter[4].chance = 0;
   starter[4].property = 0;
@@ -266,6 +269,7 @@ void init_spaces() {
   starter[4].house_cost = 0;
   starter[4].owner = -1;
   starter[4].houses_owned = 0;
+
   // spaces: Reading Railroad
   strcpy(starter[5].name,"Marylebone Station");
   starter[5].chance = 0;
@@ -294,6 +298,7 @@ void init_spaces() {
   starter[6].house_cost = 50;
   starter[6].owner = -1;
   starter[6].houses_owned = 0;
+
   // spaces: Chance
   strcpy(starter[7].name,"Chance");
   starter[7].chance = 1;
@@ -308,6 +313,7 @@ void init_spaces() {
   starter[7].house_cost = 0;
   starter[7].owner = -1;
   starter[7].houses_owned = 0;
+
   // spaces: Vermont Avnue
   strcpy(starter[8].name,"Bow Street");
   starter[8].chance = 0;
@@ -322,6 +328,7 @@ void init_spaces() {
   starter[8].house_cost = 50;
   starter[8].owner = -1;
   starter[8].houses_owned = 0;
+
   // spaces: Conneticut Avnue
   strcpy(starter[9].name,"Whitechapel Road");
   starter[9].chance = 0;
@@ -336,6 +343,7 @@ void init_spaces() {
   starter[9].house_cost = 50;
   starter[9].owner = -1;
   starter[9].houses_owned = 0;
+
   // spaces: Just Visting Jail (literally nothing happens)
   strcpy(starter[10].name,"Just Visting Jail");
   starter[10].chance = 0;
@@ -350,6 +358,7 @@ void init_spaces() {
   starter[10].house_cost = 0;
   starter[10].owner = -1;
   starter[10].houses_owned = 0;
+
   // spaces: St. Charles Place
   strcpy(starter[11].name,"The Angel Islington");
   starter[11].chance = 0;
@@ -364,6 +373,7 @@ void init_spaces() {
   starter[11].cost = 140;
   starter[11].owner = -1;
   starter[11].houses_owned = 0;
+
   // spaces: Electric Company
   // this is a special case - no properties BUT rent will be collected if you are not the owner
   strcpy(starter[12].name,"Electric Company");

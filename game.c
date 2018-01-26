@@ -2,6 +2,7 @@
 #include "mainfunctions.c"
 
 
+//Create and run a game
 void newgame(int from_clients[4], int to_subservers[4]) {
 
   printf("[mainserver] okay.\n");
@@ -34,15 +35,17 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // GAME LOOP
   
+  //Init game
   Game.init();
 
   //BOARD
   //where you want to render the image in the window
-  SDL_Rect rect = {0, 0, Game.screen.w, Game.screen.h};
-  //pixel info of one element (monopoly board)
-  SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
+  SDL_Rect boardRect = {0, 0, Game.screen.w, Game.screen.h};
+  //pixel info of one element (monopoly board), loading Texture from Surface
+  SDL_Texture* boardTexture = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
-  //PIECES
+  //Load init player positions, rects, and textures
+  //Textures used instead of surfaces for putting work on GPU instead of CPU
   SDL_Rect playerRect0;
   playerRect0.x = 0; playerRect0.y = 540;
   playerRect0.w = 100 * SCREEN_SCALE; playerRect0.h = 100 * SCREEN_SCALE;
@@ -82,11 +85,11 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
-	// user exits
+	       // user exits
       case SDL_QUIT: {
 	       Game.running = SDL_FALSE;
       } break;
-	//you can add stuff like clicking, keyboard events, etc
+	       //you can add stuff like clicking, keyboard events, etc
       }
     }
 
@@ -99,8 +102,8 @@ void newgame(int from_clients[4], int to_subservers[4]) {
       }
     }
 
-    //change the image
-    prinf("Changing image now")
+    //update image positions
+    printf("Changing image now");
     int * coors;
 
     coors = convert(start_update->position[0]);
@@ -122,8 +125,8 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
     //render the image
     SDL_RenderClear(Game.screen.renderer);
-    rect.x = 0, rect.y = 0;
-    SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
+    boardRect.x = 0, boardRect.y = 0;
+    SDL_RenderCopy(Game.screen.renderer, boardTexture, NULL, &boardRect);
     SDL_RenderCopy(Game.screen.renderer, zero, NULL, &playerRect0);
     SDL_RenderCopy(Game.screen.renderer, one, NULL, &playerRect1);
     SDL_RenderCopy(Game.screen.renderer, two, NULL, &playerRect2);
@@ -166,7 +169,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   //CLEAN UP
   
   //housekeeping like freeing memory
-  SDL_DestroyTexture(texture1);
+  SDL_DestroyTexture(boardTexture);
   SDL_DestroyTexture(zero);
   SDL_DestroyTexture(one);
   SDL_DestroyTexture(two);
