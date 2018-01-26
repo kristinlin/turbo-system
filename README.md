@@ -43,6 +43,6 @@ make
 
 7. Although this game is mostly conducted through the terminal, the board will tell you where you are and where everyone else is.
 
-NOTE: Sometimes the game might not work, but just run it once or twice again if it doesn't run the first time.
+NOTE: Sometimes the game might not work, but just run it once or twice again if it doesn't run the first time. Type in `make clean` and then `make` to run again.
 
 Have fun! :grinning:
