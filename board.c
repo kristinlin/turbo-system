@@ -66,7 +66,7 @@ struct turn {
 //====================================================================
 // ACCESSING THE SEM
 
-
+#if defined (__linux__)
 union semun {
   int              val;    /* Value for SETVAL */
   struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
@@ -74,6 +74,9 @@ union semun {
   struct seminfo  *__buf;  /* Buffer for IPC_INFO
 			      (Linux-specific) */
 } initVal;
+#endif
+
+union semun initVal;
 
 
 //create two semaphores for both shms
@@ -95,11 +98,12 @@ int gate( int semnum, int action ) {
   int sem_id = semget(SEMKEY, 0, 0);
   ctlVal.sem_num = semnum;
   if (action) {
-    ctlVal.sem_op = -1; //enter = 1 
+    ctlVal.sem_op = -1; //enter = 1
   } else {
     ctlVal.sem_op = 1; //leave = 2
   }
   semop(sem_id, &ctlVal, 1);
+  return ctlVal.sem_op;
 }
 
 
@@ -763,11 +767,11 @@ void init_spaces() {
 
 //set up all the chance cards
 void init_chance() {
-  
+
   //open shm mem
   int mem_id = shmget(CHANCE_MEMKEY, 0, 0);
   struct chance * starter = (struct chance *) shmat(mem_id, 0, 0);
-  
+
   //continue o
   //below are two chance cards
   strcpy(starter[0].text,"Advance to Go");
