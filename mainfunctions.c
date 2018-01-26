@@ -110,16 +110,20 @@ int * convert(int space) {
     coors[0] = 0;
   } else if (space > 19 && space < 31) {
     coors[0] = Game.screen.w - 100*SCREEN_SCALE;
+  } else  if (space > 10 && space < 20) {
+    coors[0] = (Game.screen.w -165)/9 * (space%10 - 1) + 75;
   } else {
-    coors[0] = (Game.screen.w -150)/9 * (space%10 - 1) + 75;
-  } 
+    coors[0] = (Game.screen.w -165)/9 * (9 - space%10) + 75;
+  }
 
   if (space > 9 && space < 21) {
     coors[1] = 0;
   } else if (space == 0 || space > 29) {
-    coors[1] = 0;
+    coors[1] = Game.screen.w - 100*SCREEN_SCALE;
+  } else if (space > 0 && space < 10) {
+    coors[1] = (Game.screen.h - 175)/9 * (9 - space%10) + 75;
   } else {
-    coors[1] = (Game.screen.h - 150)/9 * (10 - space%10) + 75;
+    coors[1] = (Game.screen.h - 175)/9 * (space%10 - 1) + 75;
   }
   return coors;
 }

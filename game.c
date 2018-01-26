@@ -44,19 +44,19 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   //PIECES
   SDL_Rect texr0;
-  texr0.x = 75; texr0.y = 0;
+  texr0.x = 0; texr0.y = 540;
   texr0.w = 100 * SCREEN_SCALE; texr0.h = 100 * SCREEN_SCALE;
   SDL_Texture* zero = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
   SDL_Rect texr1;
-  texr1.x = Game.screen.w; texr1.y = Game.screen.h;
+  texr1.x = 0; texr1.y = 540;
   texr1.w = 100 * SCREEN_SCALE; texr1.h = 100 * SCREEN_SCALE;
   SDL_Texture* one = IMG_LoadTexture(Game.screen.renderer, "images/left.bmp");
   SDL_Rect texr2;
-  texr2.x = Game.screen.w; texr2.y = Game.screen.h;
+  texr2.x = 0; texr2.y = 540;
   texr2.w = 100 * SCREEN_SCALE; texr2.h = 100 * SCREEN_SCALE;
   SDL_Texture* two = IMG_LoadTexture(Game.screen.renderer, "images/up.bmp");
   SDL_Rect texr3;
-  texr3.x = Game.screen.w; texr3.y = Game.screen.h;
+  texr3.x = 0; texr3.y = 540;
   texr3.w = 100 * SCREEN_SCALE; texr3.h = 100 * SCREEN_SCALE;
   SDL_Texture* three = IMG_LoadTexture(Game.screen.renderer, "images/down.bmp");
 
@@ -99,20 +99,21 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     }
 
     //change the image
-    /*
+
     int * coors;
     coors = convert(start_update->position[0]);
-    texr0.x = coors[0]; texr3.x = coors[1];
+    printf("x: %d; y: %d\n", coors[0], coors[1]);
+    texr0.x = coors[0]; texr0.y = coors[1];
     free(coors);
     coors = convert(start_update->position[1]);
-    texr1.x = coors[0]; texr3.x = coors[1];
+    texr1.x = coors[0]; texr1.y = coors[1];
     free(coors);
     coors = convert(start_update->position[2]);
-    texr2.x = coors[0]; texr3.x = coors[1];
+    texr2.x = coors[0]; texr2.y = coors[1];
     free(coors);
     coors = convert(start_update->position[3]);
-    texr3.x = coors[0]; texr3.x = coors[1];
-    free(coors);*/
+    texr3.x = coors[0]; texr3.y = coors[1];
+    free(coors);
     
 
     //render the image
