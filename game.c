@@ -43,21 +43,21 @@ void newgame(int from_clients[4], int to_subservers[4]) {
   SDL_Texture* texture1 = SDL_CreateTextureFromSurface(Game.screen.renderer, Game.screen.loaded_surface);
 
   //PIECES
-  SDL_Rect texr0;
-  texr0.x = 0; texr0.y = 540;
-  texr0.w = 100 * SCREEN_SCALE; texr0.h = 100 * SCREEN_SCALE;
+  SDL_Rect playerRect0;
+  playerRect0.x = 0; playerRect0.y = 540;
+  playerRect0.w = 100 * SCREEN_SCALE; playerRect0.h = 100 * SCREEN_SCALE;
   SDL_Texture* zero = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
-  SDL_Rect texr1;
-  texr1.x = 0; texr1.y = 540;
-  texr1.w = 100 * SCREEN_SCALE; texr1.h = 100 * SCREEN_SCALE;
+  SDL_Rect playerRect1;
+  playerRect1.x = 0; playerRect1.y = 540;
+  playerRect1.w = 100 * SCREEN_SCALE; playerRect1.h = 100 * SCREEN_SCALE;
   SDL_Texture* one = IMG_LoadTexture(Game.screen.renderer, "images/left.bmp");
-  SDL_Rect texr2;
-  texr2.x = 0; texr2.y = 540;
-  texr2.w = 100 * SCREEN_SCALE; texr2.h = 100 * SCREEN_SCALE;
+  SDL_Rect playerRect2;
+  playerRect2.x = 0; playerRect2.y = 540;
+  playerRect2.w = 100 * SCREEN_SCALE; playerRect2.h = 100 * SCREEN_SCALE;
   SDL_Texture* two = IMG_LoadTexture(Game.screen.renderer, "images/up.bmp");
-  SDL_Rect texr3;
-  texr3.x = 0; texr3.y = 540;
-  texr3.w = 100 * SCREEN_SCALE; texr3.h = 100 * SCREEN_SCALE;
+  SDL_Rect playerRect3;
+  playerRect3.x = 0; playerRect3.y = 540;
+  playerRect3.w = 100 * SCREEN_SCALE; playerRect3.h = 100 * SCREEN_SCALE;
   SDL_Texture* three = IMG_LoadTexture(Game.screen.renderer, "images/down.bmp");
 
   SDL_Event event;
@@ -84,7 +84,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
       switch(event.type) {
 	// user exits
       case SDL_QUIT: {
-	Game.running = SDL_FALSE;
+	       Game.running = SDL_FALSE;
       } break;
 	//you can add stuff like clicking, keyboard events, etc
       }
@@ -94,28 +94,28 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     printf("This is what every player gets: %d\n", start_update->gains[0]);
     for (i = 0; i < 4; i++) {
       if (player_status[i]) {
-	write(to_subservers[i], start_update, sizeof(struct update));
+	       write(to_subservers[i], start_update, sizeof(struct update));
       }
     }
 
     //change the image
 
     int * coors;
-    //    coors = convert(19);
+
     coors = convert(start_update->position[0]);
-    texr0.x = coors[0]; texr0.y = coors[1];
+    playerRect0.x = coors[0]; playerRect0.y = coors[1];
     free(coors);
-    //coors = convert(21);
+
     coors = convert(start_update->position[1]);
-    texr1.x = coors[0]; texr1.y = coors[1];
+    playerRect1.x = coors[0]; playerRect1.y = coors[1];
     free(coors);
-    //coors = convert(12);
+
     coors = convert(start_update->position[2]);
-    texr2.x = coors[0]; texr2.y = coors[1];
+    playerRect2.x = coors[0]; playerRect2.y = coors[1];
     free(coors);
-    //coors = convert(7);
+
     coors = convert(start_update->position[3]);
-    texr3.x = coors[0]; texr3.y = coors[1];
+    playerRect3.x = coors[0]; playerRect3.y = coors[1];
     free(coors);
     
 
@@ -123,10 +123,10 @@ void newgame(int from_clients[4], int to_subservers[4]) {
     SDL_RenderClear(Game.screen.renderer);
     rect.x = 0, rect.y = 0;
     SDL_RenderCopy(Game.screen.renderer, texture1, NULL, &rect);
-    SDL_RenderCopy(Game.screen.renderer, zero, NULL, &texr0);
-    SDL_RenderCopy(Game.screen.renderer, one, NULL, &texr1);
-    SDL_RenderCopy(Game.screen.renderer, two, NULL, &texr2);
-    SDL_RenderCopy(Game.screen.renderer, three, NULL, &texr3);
+    SDL_RenderCopy(Game.screen.renderer, zero, NULL, &playerRect0);
+    SDL_RenderCopy(Game.screen.renderer, one, NULL, &playerRect1);
+    SDL_RenderCopy(Game.screen.renderer, two, NULL, &playerRect2);
+    SDL_RenderCopy(Game.screen.renderer, three, NULL, &playerRect3);
     SDL_RenderPresent(Game.screen.renderer);
 
     //read from current player for turn struct if they're still alive
@@ -144,8 +144,8 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
       // if dead, mark somehow
       if (start_turn->dead) {
-	deaths++;
-	player_status[start_update->curr_player] = 0;
+	     deaths++;
+	     player_status[start_update->curr_player] = 0;
       }
     }	 
     
@@ -159,7 +159,7 @@ void newgame(int from_clients[4], int to_subservers[4]) {
 
   int winner;
   while (!player_status[winner++]);
-  printf("PLAYER %d WAS THE OFFICIAL WINNER.\n", winner);
+  printf("PLAYER %d IS THE OFFICIAL WINNER.\n", winner);
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //CLEAN UP

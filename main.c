@@ -15,7 +15,7 @@
 #define SCREEN_w 1000
 #define SCREEN_H 1000
 
-#define SCREEN_SCALE 1
+#define SCREEN_SCALE 0.6
 #define SCREEN_NAME "Monopoly"
 
 //========================ATTRIBUTES======================================
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
   //pixel info of one element (monopoly board)
 
   //ISOLATE
-  SDL_Rect texr; texr.x = 40; texr.y = 670; texr.w = 100; texr.h = 100;
+  SDL_Rect texr; texr.x = 40; texr.y = 470; texr.w = 50; texr.h = 50;
   SDL_Texture* img = IMG_LoadTexture(Game.screen.renderer, "images/right.bmp");
   //ISOLATE
 
@@ -133,11 +133,11 @@ int main(int argc, char* argv[]) {
     }
 
     //render the image
-    SDL_RenderClear(Game.screen.renderer);
     mainRect.x = 0, mainRect.y = 0;
     SDL_RenderCopy(Game.screen.renderer, mainTexture, NULL, &mainRect);
     SDL_RenderCopy(Game.screen.renderer, img, NULL, &texr);
     SDL_RenderPresent(Game.screen.renderer);
+    SDL_RenderClear(Game.screen.renderer);
 
   }
 
