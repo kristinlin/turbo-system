@@ -164,7 +164,7 @@ void setshm_space( int space, struct spaces * updated ) {
   int mem_id = shmget(SPACE_MEMKEY, 0, 0);
 
   printf("THIS IS updated property: %d\n", updated->property);
-  
+
   //attach it to a pointer
   struct spaces * shm_spaces = (struct spaces *) shmat(mem_id, 0, 0);
   strcpy(shm_spaces[space].name, updated->name);
@@ -213,8 +213,8 @@ void init_spaces() {
   starter[0].house_cost = 0;
   starter[0].owner = -1;
   starter[0].houses_owned = 0;
-  // spaces: Mediterranean Avenue
-  strcpy(starter[1].name,"Mediterranean Avenue");
+
+  strcpy(starter[1].name,"Vine Street");
   printf("This is the first space. %s\n", starter[1].name);
   starter[1].chance = 0;
   starter[1].property = 1;
@@ -243,7 +243,7 @@ void init_spaces() {
   starter[2].owner = -1;
   starter[2].houses_owned = 0;
   // spaces: Mediterranean Avenue
-  strcpy(starter[3].name,"Baltic Avenue");
+  strcpy(starter[3].name,"Coventry Street");
   starter[3].chance = 0;
   starter[3].property = 1;
   starter[3].change_money = 0;
@@ -257,7 +257,7 @@ void init_spaces() {
   starter[3].owner = -1;
   starter[3].houses_owned = 0;
   // Income tax, will simplify to -200
-  strcpy(starter[4].name,"Income tax");
+  strcpy(starter[4].name,"Income Tax");
   starter[4].chance = 0;
   starter[4].property = 0;
   starter[4].change_money = -200;
@@ -271,7 +271,7 @@ void init_spaces() {
   starter[4].owner = -1;
   starter[4].houses_owned = 0;
   // spaces: Reading Railroad
-  strcpy(starter[5].name,"Reading Railroad");
+  strcpy(starter[5].name,"Marylebone Station");
   starter[5].chance = 0;
   starter[5].property = 1;
   starter[5].change_money = 0;
@@ -285,7 +285,7 @@ void init_spaces() {
   starter[5].owner = -1;
   starter[5].houses_owned = 0;
   // spaces: Oriental Avenue
-  strcpy(starter[6].name,"Oriental Avenue");
+  strcpy(starter[6].name,"Leicester Square");
   starter[6].chance = 0;
   starter[6].property = 1;
   starter[6].change_money = 0;
@@ -313,7 +313,7 @@ void init_spaces() {
   starter[7].owner = -1;
   starter[7].houses_owned = 0;
   // spaces: Vermont Avnue
-  strcpy(starter[8].name,"Vermont Avenue");
+  strcpy(starter[8].name,"Bow Street");
   starter[8].chance = 0;
   starter[8].property = 1;
   starter[8].change_money = 0;
@@ -327,7 +327,7 @@ void init_spaces() {
   starter[8].owner = -1;
   starter[8].houses_owned = 0;
   // spaces: Conneticut Avnue
-  strcpy(starter[9].name,"Conneticut Avenue");
+  strcpy(starter[9].name,"Whitechapel Road");
   starter[9].chance = 0;
   starter[9].property = 1;
   starter[9].change_money = 0;
@@ -355,7 +355,7 @@ void init_spaces() {
   starter[10].owner = -1;
   starter[10].houses_owned = 0;
   // spaces: St. Charles Place
-  strcpy(starter[11].name,"St. Charles Place");
+  strcpy(starter[11].name,"The Angel Islington");
   starter[11].chance = 0;
   starter[11].property = 1;
   starter[11].change_money = 0;
@@ -384,7 +384,7 @@ void init_spaces() {
   starter[12].house_cost = 0;
   starter[12].houses_owned = 0;
   // spaces: States Avenue
-  strcpy(starter[13].name,"States Avenue");
+  strcpy(starter[13].name,"Trafalgar Square");
   starter[13].chance = 0;
   starter[13].property = 1;
   starter[13].change_money = 0;
@@ -398,7 +398,7 @@ void init_spaces() {
   starter[13].owner = -1;
   starter[13].houses_owned = 0;
   // spaces: States Avenue
-  strcpy(starter[14].name,"Virginia Avenue");
+  strcpy(starter[14].name,"Northumrid Avenue");
   starter[14].chance = 0;
   starter[14].property = 1;
   starter[14].change_money = 0;
@@ -412,7 +412,7 @@ void init_spaces() {
   starter[14].owner = -1;
   starter[14].houses_owned = 0;
   // spaces: Penn Railroad
-  strcpy(starter[15].name,"Pennsylvania Railroad");
+  strcpy(starter[15].name,"Fenchurch St. Station");
   starter[15].chance = 0;
   starter[15].property = 1;
   starter[15].change_money = 0;
@@ -426,7 +426,7 @@ void init_spaces() {
   starter[15].owner = -1;
   starter[15].houses_owned = 0;
 
-  strcpy(starter[16].name,"St. James Place");
+  strcpy(starter[16].name,"M'Bourough Street");
   starter[16].chance = 0;
   starter[16].property = 1;
   starter[16].change_money = 0;
@@ -454,7 +454,7 @@ void init_spaces() {
   starter[17].owner = -1;
   starter[17].houses_owned = 0;
   // spaces: Tennesee aVE
-  strcpy(starter[18].name,"Tennessee Avenue");
+  strcpy(starter[18].name,"Fleet Street");
   starter[18].chance = 0;
   starter[18].property = 1;
   starter[18].change_money = 0;
@@ -468,7 +468,7 @@ void init_spaces() {
   starter[18].owner = -1;
   starter[18].houses_owned = 0;
   // spaces: ny ave
-  strcpy(starter[19].name,"New York Avenue");
+  strcpy(starter[19].name,"Old Kent Road");
   starter[19].chance = 0;
   starter[19].property = 1;
   starter[19].change_money = 0;
@@ -496,7 +496,7 @@ void init_spaces() {
   starter[20].owner = -1;
   starter[20].houses_owned = 0;
   // spaces: kent
-  strcpy(starter[21].name,"Kentucky Avenue");
+  strcpy(starter[21].name,"Whitehall");
   starter[21].chance = 0;
   starter[21].property = 1;
   starter[21].change_money = 0;
@@ -524,7 +524,7 @@ void init_spaces() {
   starter[22].owner = -1;
   starter[22].houses_owned = 0;
 
-  strcpy(starter[23].name,"Indiana Avenue");
+  strcpy(starter[23].name,"Pentonville Road");
   starter[23].chance = 0;
   starter[23].property = 1;
   starter[23].change_money = 0;
@@ -538,7 +538,7 @@ void init_spaces() {
   starter[23].owner = -1;
   starter[23].houses_owned = 0;
 
-  strcpy(starter[24].name,"Illinois Avenue");
+  strcpy(starter[24].name,"Pall Mall");
   starter[24].chance = 0;
   starter[24].property = 1;
   starter[24].change_money = 0;
@@ -552,7 +552,7 @@ void init_spaces() {
   starter[24].owner = -1;
   starter[24].houses_owned = 0;
 
-  strcpy(starter[25].name,"B. & O. Railroad");
+  strcpy(starter[25].name,"Kings Cross Station");
   starter[25].chance = 0;
   starter[25].property = 1;
   starter[25].change_money = 0;
@@ -566,7 +566,7 @@ void init_spaces() {
   starter[25].owner = -1;
   starter[25].houses_owned = 0;
 
-  strcpy(starter[26].name,"Atlantic Avenue");
+  strcpy(starter[26].name,"Bond Street");
   starter[26].chance = 0;
   starter[26].property = 1;
   starter[26].change_money = 0;
@@ -580,7 +580,7 @@ void init_spaces() {
   starter[26].owner = -1;
   starter[26].houses_owned = 0;
 
-  strcpy(starter[27].name,"Ventnor Avenue");
+  strcpy(starter[27].name,"Strand");
   starter[27].chance = 0;
   starter[27].property = 1;
   starter[27].change_money = 0;
@@ -609,7 +609,7 @@ void init_spaces() {
   starter[28].owner = -1;
   starter[28].houses_owned = 0;
 
-  strcpy(starter[29].name,"Marvin Gardens");
+  strcpy(starter[29].name,"Regent Street");
   starter[29].chance = 0;
   starter[29].property = 1;
   starter[29].change_money = 0;
@@ -638,7 +638,7 @@ void init_spaces() {
   starter[30].owner = -1;
   starter[30].houses_owned = 0;
 
-  strcpy(starter[31].name,"Pacific Avenue");
+  strcpy(starter[31].name,"Euston Road");
   starter[31].chance = 0;
   starter[31].property = 1;
   starter[31].change_money = 0;
@@ -652,7 +652,7 @@ void init_spaces() {
   starter[31].owner = -1;
   starter[31].houses_owned = 0;
 
-  strcpy(starter[32].name,"North Carolina Avenue");
+  strcpy(starter[32].name,"Piccadilly");
   starter[32].chance = 0;
   starter[32].property = 1;
   starter[32].change_money = 0;
@@ -680,7 +680,7 @@ void init_spaces() {
   starter[33].owner = -1;
   starter[33].houses_owned = 0;
 
-  strcpy(starter[34].name,"Pennsylvania Avenue");
+  strcpy(starter[34].name,"Oxford Street");
   starter[34].chance = 0;
   starter[34].property = 1;
   starter[34].change_money = 0;
@@ -694,7 +694,7 @@ void init_spaces() {
   starter[34].owner = -1;
   starter[34].houses_owned = 0;
 
-  strcpy(starter[35].name,"Short Line");
+  strcpy(starter[35].name,"Liverpool St. Station");
   starter[35].chance = 0;
   starter[35].property = 1;
   starter[35].change_money = 0;
@@ -722,7 +722,7 @@ void init_spaces() {
   starter[36].owner = -1;
   starter[36].houses_owned = 0;
 
-  strcpy(starter[37].name,"Park Place");
+  strcpy(starter[37].name,"Park Lane");
   starter[37].chance = 0;
   starter[37].property = 1;
   starter[37].change_money = 0;
@@ -736,7 +736,7 @@ void init_spaces() {
   starter[37].owner = -1;
   starter[37].houses_owned = 0;
 
-  strcpy(starter[38].name,"Luxury Tax");
+  strcpy(starter[38].name,"Super Tax");
   starter[38].chance = 0;
   starter[38].property = 0;
   starter[38].change_money = -100;
@@ -750,7 +750,7 @@ void init_spaces() {
   starter[38].owner = -1;
   starter[38].houses_owned = 0;
 
-  strcpy(starter[39].name, "Boardwalk");
+  strcpy(starter[39].name, "Mayfair");
   starter[39].chance = 0;
   starter[39].property = 1;
   starter[39].change_money = 0;
@@ -781,10 +781,10 @@ void init_chance() {
   strcpy(starter[0].text,"Advance to Go");
   starter[0].money = 0; // if it's on go it should automatically collect $200 i think
   starter[0].spaces = 0;
-  strcpy(starter[1].text,"Advance to Illinois Avenue");
+  strcpy(starter[1].text,"Advance to Pall Mall");
   starter[1].money = 0;
   starter[1].spaces = 24;
-  strcpy(starter[2].text, "Advance to St. Charles Place");
+  strcpy(starter[2].text, "Advance to The Angel Islington");
   starter[2].money = 0;
   starter[2].spaces = 11;
   strcpy(starter[3].text,"Bank pays you dividend of $50");
@@ -802,10 +802,10 @@ void init_chance() {
   strcpy(starter[7].text, "Pay poor tax of $15");
   starter[7].money = -15;
   starter[7].spaces = 0;
-  strcpy(starter[8].text, "Take a trip to Reading Railroad");
+  strcpy(starter[8].text, "Take a trip to Marylebone Station");
   starter[8].money = 0;
   starter[8].spaces = 5;
-  strcpy(starter[9].text,"Take a walk on the boardwalk.");
+  strcpy(starter[9].text,"Take a walk on Mayfair");
   starter[9].money = 0;
   starter[9].spaces = 39;
   strcpy(starter[10].text,"You have been elected Chairman of the Board - pay each player $50.");

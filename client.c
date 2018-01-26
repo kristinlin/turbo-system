@@ -5,7 +5,7 @@
 int main() {
 
   srand(getpid());
-  
+
   int player_num;
   int money = 0;
   int to_server;
@@ -117,6 +117,7 @@ int main() {
       // no chance card, land on space w/ someone else's property
       else if (curr_space->property == 2) {
         int money_owed = (curr_space->rent)[curr_space->houses_owned];
+        printf("YOU JUST LANDED ON PLAYER %d\'S PROPERTY. PAY %d.\n", curr_space->owner, money_owed);
         if (money - money_owed >= 0) {
           //pay up (subtract money from your bank acct)
           money -= money_owed;
@@ -166,7 +167,7 @@ int main() {
       // land on some weird space, income tax
       else {
         // income tax or luxury tax
-        if ((strcmp(curr_space->name, "Income tax") == 0) || (strcmp(curr_space->name, "Luxury Tax") == 0)) {
+        if ((strcmp(curr_space->name, "Income Tax") == 0) || (strcmp(curr_space->name, "Super Tax") == 0)) {
           printf("PAY TAX OF %d.\n", curr_space->change_money);
           if (money + curr_space->change_money < 0) {
             printf("YOU ARE NOW BANKRUPT. GOODBYE.\n");
